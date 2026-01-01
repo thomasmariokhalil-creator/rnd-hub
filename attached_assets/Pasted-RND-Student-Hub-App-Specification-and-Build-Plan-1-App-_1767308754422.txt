@@ -1,0 +1,117 @@
+RND Student Hub App Specification and Build Plan
+
+1 App Basics
+Name RND Student Hub
+Package Name Android tk.rnd.studenthub
+Platform FlutterFlow design then Android Studio build
+Target Users Students at Regiopolis Notre-Dame Catholic High School
+Device Type Android can expand to iOS later
+
+2 Color Scheme
+Primary Color Garnet #800000
+Primary Dark Dark Garnet #4d0000
+Accent Color Gold #FFD700
+Use these colors for top navigation bar buttons highlighted elements and tabs
+
+3 App Layout and Structure
+
+Top Section
+Logo RND school logo at top center
+Width 360 px Height 100 px
+Position top of screen inside vertical arrangement
+Navigation Tabs Horizontal row below logo
+Options Daily News Food Clubs Sports Dates
+Active tab color Accent Gold
+Font Sans-serif 16 to 18 px
+
+Featured Section
+Rotating carousel or image slider immediately below navigation
+Shows important images school events banners
+Size full screen width 200 to 250 px height
+Swipeable on mobile
+
+Main Sections or Screens
+1 Daily News Announcements
+Pull automatically from SharePoint and Smores site
+Each item shows title date summary
+Optional AI summarization
+Scrollable list
+2 Food or Menu Updates
+Weekly menu from shared Google Sheet
+Optional images for daily meals
+Cards or list layout
+3 Clubs and Activities
+List of clubs with name description meeting time
+Optional join button linking to email or Google Form
+4 Sports Updates
+Upcoming games results tryouts
+Optional image placeholders for team logos or photos
+5 Important Dates and Schedule
+Exam dates special events school holidays
+Optional calendar view
+Pull from Google Sheet for live updates
+6 Featured Carousel
+First thing students see when opening the app
+Rotating images events important announcements school highlights
+
+4 Backend and Data Integration
+SharePoint Announcements use REST API or WebView fetch
+Smores Newsletters optional web scraping or RSS feed integration
+Google Sheets optional for live updates of menu clubs sports schedule
+AI Summarization optional for announcements
+Can be set up as API calls or web scraping scripts connected to FlutterFlow
+
+5 Ads Integration Optional Monetization
+Banner Ads at bottom of each screen safe content only Google AdMob recommended
+Placeholder called AdBannerContainer
+Optional Interstitial Ads between sections
+Only safe and school-appropriate networks
+Optional HTML ads via WebView for HTML-based sections
+
+6 Navigation and Usability
+Tabs or drawer menu at top for quick access
+Vertical scroll lists inside each screen for readability
+Spacing 10 to 15 px padding between elements
+Fonts Headlines bold 18 to 22 px Body regular 14 to 16 px
+Colors use primary dark accent consistently
+Visual separation cards separators background shading
+
+7 Technical Details
+App Builder FlutterFlow drag-and-drop UI
+Export Flutter source code to Android Studio
+Android Studio build APK or AAB test app publish
+Data Sources SharePoint Smores Google Sheets
+AI optional summarization via API
+Ads AdMob banner and interstitial
+Navigation top tabs swipeable carousel
+
+8 Suggested Screen Hierarchy
+RND Student Hub main app
+Top Logo and Navigation Tabs
+Daily News
+Food
+Clubs
+Sports
+Important Dates
+Featured Carousel first section
+Main Content Sections
+Daily News List
+Food Menu Cards
+Clubs and Activities Cards
+Sports Updates
+Important Dates or Calendar
+Bottom Banner Ad Placeholder
+
+9 Recommended Image Sizes
+Logo 360 by 100 px
+Carousel 360 by 200 to 250 px
+Club or News Cards 300 by 150 to 180 px
+Banner Ads full width by 50 to 60 px
+
+10 Professional Look and Feel
+Consistent school colors
+Proper spacing and alignment
+Simple clean readable typography
+Easy navigation
+First thing users see is carousel of featured content
+Goal central hub for students with live announcements and organized information that looks professional
