@@ -1,4 +1,4 @@
-import { pgTable, text, serial, timestamp, boolean, date } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, boolean, date, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -40,10 +40,12 @@ export const clubs = pgTable("clubs", {
 export const sportsEvents = pgTable("sports_events", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
+  sportName: text("sport_name").notNull(),
   date: timestamp("date").notNull(),
-  result: text("result"),
+  type: text("type").notNull(), // 'Tryout', 'Practice', 'Game', 'Event'
   location: text("location"),
-  isTryout: boolean("is_tryout").default(false),
+  description: text("description"),
+  result: text("result"),
   imageUrl: text("image_url"),
 });
 
@@ -63,7 +65,7 @@ export const featuredContent = pgTable("featured_content", {
   imageUrl: text("image_url").notNull(),
   linkUrl: text("link_url"),
   active: boolean("active").default(true),
-  order: serial("order"),
+  order: integer("order"),
 });
 
 export const insertAnnouncementSchema = createInsertSchema(announcements).omit({ id: true });
