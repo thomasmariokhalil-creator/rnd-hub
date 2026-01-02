@@ -21,6 +21,7 @@ export const menuItems = pgTable("menu_items", {
   description: text("description"),
   price: text("price"),
   category: text("category").default("Main"), // Main, Side, Drink
+  location: text("location"),
   imageUrl: text("image_url"),
 });
 
@@ -42,6 +43,7 @@ export const sportsEvents = pgTable("sports_events", {
   date: timestamp("date").notNull(),
   result: text("result"), // e.g., "W 54-40" or null if upcoming
   location: text("location"),
+  isTryout: boolean("is_tryout").default(false),
   imageUrl: text("image_url"),
 });
 
