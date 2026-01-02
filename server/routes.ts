@@ -40,54 +40,28 @@ async function seedData() {
     location: "Student Commons"
   });
 
-  // 4. Clubs
-  await storage.createClub({
-    name: "Robotics Club",
-    description: "Build and program robots for competition.",
-    meetingTime: "Tuesdays after school",
-    location: "Room 104",
-    contactEmail: "robotics@rnd.edu"
-  });
+  // 4. Sports Updates
+  const sportsData = [
+    { sportName: "Girls Volleyball", title: "Practice", type: "Practice", date: new Date(Date.now() + 86400000), location: "Main Gym" },
+    { sportName: "Boys Basketball", title: "Tryouts", type: "Tryout", date: new Date(Date.now() + 86400000 * 2), location: "Main Gym" },
+    { sportName: "Hockey", title: "Game vs Holy Cross", type: "Game", date: new Date(Date.now() + 86400000 * 3), location: "INVISTA Centre" },
+  ];
 
-  // 5. Sports - Seasonal
+  for (const s of sportsData) {
+    await storage.createSportsEvent(s);
+  }
+
+  // 5. Clubs (Used for seasonal sports categorizes)
   const seasonalSports = [
-    {
-      name: "Fall Season Sports",
-      description: "Cross Country, Football, Boys Volleyball, Girls Basketball, Golf, Girls Field Hockey",
-      location: "Check Athletics Board",
-    },
-    {
-      name: "Winter Season Sports",
-      description: "Girls Volleyball, Boys Basketball, Curling, Hockey, Badminton",
-      location: "Check Athletics Board",
-    },
-    {
-      name: "Spring Season Sports",
-      description: "Soccer, Track & Field, Girls Softball, Tennis, Baseball",
-      location: "Check Athletics Board",
-    },
-    {
-      name: "Year-Round Sports",
-      description: "Cheer & Dance",
-      location: "Main Gym",
-    }
+    { name: "Fall Season Sports", description: "Cross Country, Football, Boys Volleyball, Girls Basketball, Golf, Girls Field Hockey", meetingTime: "Seasonal", location: "Check Athletics Board" },
+    { name: "Winter Season Sports", description: "Girls Volleyball, Boys Basketball, Curling, Hockey, Badminton", meetingTime: "Seasonal", location: "Check Athletics Board" },
+    { name: "Spring Season Sports", description: "Soccer, Track & Field, Girls Softball, Tennis, Baseball", meetingTime: "Seasonal", location: "Check Athletics Board" },
+    { name: "Year-Round Sports", description: "Cheer", meetingTime: "Seasonal", location: "Main Gym" }
   ];
 
   for (const sport of seasonalSports) {
-    await storage.createClub({
-      name: sport.name,
-      description: sport.description,
-      meetingTime: "Seasonal",
-      location: sport.location,
-    });
+    await storage.createClub(sport);
   }
-
-  await storage.createSportsEvent({
-    title: "Senior Girls Volleyball Tryouts",
-    date: new Date(Date.now() + 86400000 * 3),
-    location: "Main Gym",
-    isTryout: true
-  });
 
   // 6. Dates / Schedule
   const scheduleData = [
@@ -106,34 +80,6 @@ async function seedData() {
       description: s.time
     });
   }
-
-  await storage.createSchoolEvent({
-    title: "School Mass Schedule",
-    date: "2026-02-18",
-    type: "Mass",
-    description: "Period 1: 8:30-9:30 | Mass: 9:45-11:00 | Period 2: 11:05-12:05 | Lunch: 12:05-12:50 | Period 3: 12:55-1:40 | Period 4: 1:45-2:30"
-  });
-
-  await storage.createSchoolEvent({
-    title: "Professional Activity Day",
-    date: "2026-02-02",
-    type: "PA Day",
-    description: "No school for students."
-  });
-
-  await storage.createSchoolEvent({
-    title: "Family Day",
-    date: "2026-02-16",
-    type: "Holiday",
-    description: "School closed."
-  });
-
-  await storage.createSchoolEvent({
-    title: "Midterm Exams Period",
-    date: "2026-03-20",
-    type: "Exams",
-    description: "Final assessment week."
-  });
 
   console.log("RND Hub seeding complete.");
 }
