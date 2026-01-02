@@ -35,7 +35,7 @@ export default function Sports() {
 
         <SectionHeader title="Panthers Athletics" description="Schedules and team updates." />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 gap-8 mb-12">
           
           <div className="space-y-6">
             <h3 className="font-display font-bold text-xl flex items-center gap-2 text-primary">
@@ -43,7 +43,7 @@ export default function Sports() {
               Upcoming Games
             </h3>
             
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {upcoming?.length ? upcoming.map((game) => (
                 <div key={game.id} className="bg-card rounded-xl p-5 border border-border shadow-sm flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="flex flex-col items-center justify-center bg-secondary/20 rounded-lg w-14 h-14 shrink-0 border border-secondary/30">
@@ -65,7 +65,7 @@ export default function Sports() {
               <Trophy className="w-5 h-5 text-secondary" />
               Tryouts
             </h3>
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {tryouts?.length ? tryouts.map((game) => (
                 <div key={game.id} className="bg-card rounded-xl p-5 border border-border shadow-sm flex items-center gap-4 hover:border-primary/20 transition-all">
                   <div className="flex flex-col items-center justify-center bg-primary rounded-lg w-14 h-14 shrink-0 border border-primary">
@@ -80,38 +80,37 @@ export default function Sports() {
                 </div>
               )) : <p className="text-xs text-muted-foreground italic uppercase tracking-widest">No upcoming tryouts.</p>}
             </div>
-
-            {clubs && (
-              <div className="mt-8 pt-6 border-t border-border">
-                <h3 className="font-display font-bold text-xl flex items-center gap-2 text-primary mb-4">
-                  <Info className="w-5 h-5 text-secondary" />
-                  Available Sports by Season
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
-                  {clubs
-                    .filter(c => c.name.includes("Season") || c.name.includes("Year-Round"))
-                    .map(season => {
-                      const Icon = Object.entries(SEASON_ICONS).find(([key]) => season.name.includes(key))?.[1] || Info;
-                      return (
-                        <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-3 flex flex-col items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0">
-                            <Icon className="w-4 h-4 text-primary" />
-                          </div>
-                          <div className="text-center">
-                            <h4 className="text-primary font-bold uppercase tracking-widest text-[9px] mb-1">{season.name}</h4>
-                            <p className="text-[10px] font-bold text-primary uppercase tracking-tight leading-tight">
-                              {season.description}
-                            </p>
-                          </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-            )}
           </div>
-
         </div>
+
+        {clubs && (
+          <div className="mt-12 pt-12 border-t border-border">
+            <h3 className="font-display font-bold text-2xl flex items-center justify-center gap-2 text-primary mb-8 text-center">
+              <Info className="w-6 h-6 text-secondary" />
+              Available Sports by Season
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {clubs
+                .filter(c => c.name.includes("Season") || c.name.includes("Year-Round"))
+                .map(season => {
+                  const Icon = Object.entries(SEASON_ICONS).find(([key]) => season.name.includes(key))?.[1] || Info;
+                  return (
+                    <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-2xl p-6 flex flex-col items-center gap-4 hover:bg-secondary/20 transition-all">
+                      <div className="w-16 h-16 rounded-full bg-secondary flex items-center justify-center shrink-0 shadow-sm">
+                        <Icon className="w-8 h-8 text-primary" />
+                      </div>
+                      <div className="text-center">
+                        <h4 className="text-primary font-bold uppercase tracking-[0.2em] text-sm mb-3">{season.name}</h4>
+                        <p className="text-lg font-bold text-primary uppercase tracking-tight leading-snug">
+                          {season.description}
+                        </p>
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );
