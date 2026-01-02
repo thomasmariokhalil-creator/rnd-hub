@@ -12,9 +12,9 @@ async function seedData() {
   const today = new Date();
   const todayStr = today.toISOString().split('T')[0];
 
-  // 1. Featured Section - No text, Garnet background placeholder
+  // 1. Featured Section
   await storage.createFeaturedContent({
-    title: "", 
+    title: "Welcome to the Student Hub", 
     imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000",
     linkUrl: "#",
     active: true,
@@ -30,7 +30,7 @@ async function seedData() {
     source: "Administration"
   });
 
-  // 3. Food Section - Today only, Main only, Location included
+  // 3. Food Section
   await storage.createMenuItem({
     title: "Chicken Parmesan",
     date: todayStr,
@@ -49,22 +49,7 @@ async function seedData() {
     contactEmail: "robotics@rnd.edu"
   });
 
-  // 5. Sports - Tryouts and Available Sports
-  await storage.createSportsEvent({
-    title: "Senior Girls Volleyball Tryouts",
-    date: new Date(Date.now() + 86400000 * 3),
-    location: "Main Gym",
-    isTryout: true
-  });
-  
-  await storage.createSportsEvent({
-    title: "Junior Boys Basketball Tryouts",
-    date: new Date(Date.now() + 86400000 * 4),
-    location: "Main Gym",
-    isTryout: true
-  });
-
-  // Categorized Available Sports
+  // 5. Sports - Seasonal
   const seasonalSports = [
     {
       name: "Fall Season Sports",
@@ -96,6 +81,15 @@ async function seedData() {
       location: sport.location,
     });
   }
+
+  await storage.createSportsEvent({
+    title: "Senior Girls Volleyball Tryouts",
+    date: new Date(Date.now() + 86400000 * 3),
+    location: "Main Gym",
+    isTryout: true
+  });
+
+  // 6. Dates / Schedule
   const scheduleData = [
     { title: "Period 1", time: "8:30 - 9:45" },
     { title: "Period 2", time: "9:50 - 11:05" },
