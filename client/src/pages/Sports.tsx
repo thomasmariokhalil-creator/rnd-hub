@@ -74,19 +74,23 @@ export default function Sports() {
               )) : <p className="text-xs text-muted-foreground italic uppercase tracking-widest">No upcoming tryouts.</p>}
             </div>
 
-            {availableSports && (
+            {clubs && (
               <div className="mt-8 pt-6 border-t border-border">
                 <h3 className="font-display font-bold text-xl flex items-center gap-2 text-primary mb-4">
                   <Info className="w-5 h-5 text-secondary" />
-                  Available Sports
+                  Available Sports by Season
                 </h3>
-                <div className="bg-secondary/10 border border-secondary/20 rounded-xl p-5">
-                  <p className="text-sm font-bold text-primary uppercase tracking-tight leading-relaxed">
-                    {availableSports.description}
-                  </p>
-                  <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-3">
-                    Contact: {availableSports.location}
-                  </p>
+                <div className="grid grid-cols-1 gap-4">
+                  {clubs
+                    .filter(c => c.name.includes("Season") || c.name.includes("Year-Round"))
+                    .map(season => (
+                      <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-5">
+                        <h4 className="text-primary font-bold uppercase tracking-widest text-xs mb-2">{season.name}</h4>
+                        <p className="text-sm font-bold text-primary uppercase tracking-tight leading-relaxed">
+                          {season.description}
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             )}
