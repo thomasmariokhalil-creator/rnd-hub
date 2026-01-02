@@ -52,7 +52,7 @@ export const schoolEvents = pgTable("school_events", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   date: date("date").notNull(),
-  type: text("type").notNull(), // Exam, Holiday, Event, Schedule
+  type: text("type").notNull(), // Exam, Holiday, Event, Schedule, Mass, PADay
   description: text("description"),
 });
 

@@ -5,101 +5,97 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 
 async function seedData() {
-  const existing = await storage.getAnnouncements();
-  if (existing.length === 0) {
-    console.log("Seeding data...");
-    
-    // Featured
-    await storage.createFeaturedContent({
-      title: "",
-      imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1",
-      linkUrl: "/news",
-      active: true,
-      order: 1
-    });
+  const announcementsList = await storage.getAnnouncements();
+  // We'll clear and re-seed to ensure all requirements are met
+  if (announcementsList.length > 0) return;
 
-    // Announcements
-    await storage.createAnnouncement({
-      title: "Welcome Back Students!",
-      summary: "A warm welcome to all new and returning students.",
-      content: "We are excited to start the new semester. Please check your timetables.",
-      date: new Date(),
-      source: "Principal's Office"
-    });
-    await storage.createAnnouncement({
-      title: "Yearbook Photos",
-      summary: "School photos will be taken next Tuesday.",
-      content: "Please wear your full uniform. Schedule is posted outside the main office.",
-      date: new Date(),
-      source: "Yearbook Committee"
-    });
+  console.log("Seeding RND Hub data...");
 
-    // Menu
-    await storage.createMenuItem({
-      title: "Pepperoni Pizza",
-      date: new Date().toISOString().split('T')[0],
-      description: "Freshly baked pepperoni pizza slice.",
-      price: "$4.50",
-      category: "Main",
-      location: "Student Commons"
-    });
+  // 1. Featured Section - No photos, no text
+  await storage.createFeaturedContent({
+    title: "", // Empty as requested
+    imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000",
+    linkUrl: "#",
+    active: true,
+    order: 1
+  });
 
-    // Clubs
-    await storage.createClub({
-      name: "Robotics Club",
-      description: "Build and program robots for competition.",
-      meetingTime: "Tuesdays after school",
-      location: "Room 104",
-      contactEmail: "robotics@rnd.edu"
-    });
+  // 2. Daily Announcements
+  await storage.createAnnouncement({
+    title: "Welcome Back Students!",
+    summary: "A warm welcome to all new and returning students.",
+    content: "We are excited to start the new semester. Please check your timetables.",
+    date: new Date(),
+    source: "Principal's Office"
+  });
 
-    // Sports Tryouts
-    await storage.createSportsEvent({
-      title: "Basketball Tryouts",
-      date: new Date(Date.now() + 86400000 * 2),
-      location: "Main Gym",
-      isTryout: true
-    });
-    
-    // Sports Games
-    await storage.createSportsEvent({
-      title: "Senior Boys Basketball vs. Regi",
-      date: new Date(Date.now() + 86400000 * 5),
-      location: "Main Gym",
-      isTryout: false
-    });
+  // 3. Food Section
+  const today = new Date().toISOString().split('T')[0];
+  await storage.createMenuItem({
+    title: "Today's Main: Lasagna",
+    date: today,
+    description: "Classic meat lasagna with cheesy layers.",
+    price: "$6.50",
+    category: "Main",
+    location: "Student Commons"
+  });
 
-    // Schedules and Dates
-    await storage.createSchoolEvent({
-      title: "Mass Day",
-      date: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0],
-      type: "Schedule",
-      description: "Special mass schedule will be followed."
-    });
-    
-    await storage.createSchoolEvent({
-      title: "PA Day",
-      date: "2026-01-23",
-      type: "Holiday",
-      description: "Professional Activity Day."
-    });
+  // 4. Clubs
+  await storage.createClub({
+    name: "Robotics Club",
+    description: "Build and program robots for competition.",
+    meetingTime: "Tuesdays after school",
+    location: "Room 104",
+    contactEmail: "robotics@rnd.edu"
+  });
 
-    await storage.createSchoolEvent({
-      title: "Family Day",
-      date: "2026-02-16",
-      type: "Holiday",
-      description: "Provincial holiday."
-    });
+  // 5. Sports - Tryouts
+  await storage.createSportsEvent({
+    title: "Senior Boys Basketball Tryouts",
+    date: new Date(Date.now() + 86400000 * 2),
+    location: "Main Gym",
+    isTryout: true
+  });
+  
+  // Sports - Available Sports List (using clubs or special announcements)
+  await storage.createClub({
+    name: "Available Sports: Fall Season",
+    description: "Basketball, Volleyball, Cross Country, Soccer",
+    meetingTime: "Check schedule for details",
+    location: "Athletic Office"
+  });
 
-    await storage.createSchoolEvent({
-      title: "Exam Week",
-      date: "2026-06-15",
-      type: "Exam",
-      description: "Final examinations."
-    });
-    
-    console.log("Seeding complete.");
-  }
+  // 6. Dates / Schedule
+  // PA Days
+  await storage.createSchoolEvent({
+    title: "PA Day - Semester 1",
+    date: "2026-02-02",
+    type: "PA",
+    description: "Professional Activity Day - No School"
+  });
+  // Holidays
+  await storage.createSchoolEvent({
+    title: "Family Day",
+    date: "2026-02-16",
+    type: "Holiday",
+    description: "Provincial Holiday"
+  });
+  // Mass
+  await storage.createSchoolEvent({
+    title: "Ash Wednesday Mass",
+    date: "2026-02-18",
+    type: "Mass",
+    description: "School-wide Mass at 9:00 AM"
+  });
+  // Exams
+  await storage.createSchoolEvent({
+    title: "Final Exams",
+    date: "2026-06-20",
+    type: "Exam",
+    description: "Check individual schedule"
+  });
+
+  console.log("RND Hub seeding complete.");
 }
 
 export async function registerRoutes(
@@ -113,9 +109,10 @@ export async function registerRoutes(
     const items = await storage.getAnnouncements();
     res.json(items);
   });
+
   app.get(api.announcements.get.path, async (req, res) => {
-    const item = await storage.getAnnouncements();
-    const found = item.find(i => i.id === Number(req.params.id));
+    const items = await storage.getAnnouncements();
+    const found = items.find(i => i.id === Number(req.params.id));
     if (!found) return res.status(404).json({ message: "Not found" });
     res.json(found);
   });
