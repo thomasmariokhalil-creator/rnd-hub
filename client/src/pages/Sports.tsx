@@ -87,19 +87,19 @@ export default function Sports() {
                   <Info className="w-5 h-5 text-secondary" />
                   Available Sports by Season
                 </h3>
-                <div className="flex flex-row overflow-x-auto gap-4 pb-4 snap-x no-scrollbar">
+                <div className="grid grid-cols-2 gap-3">
                   {clubs
                     .filter(c => c.name.includes("Season") || c.name.includes("Year-Round"))
                     .map(season => {
                       const Icon = Object.entries(SEASON_ICONS).find(([key]) => season.name.includes(key))?.[1] || Info;
                       return (
-                        <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-4 flex flex-col items-center gap-2 min-w-[160px] snap-center shrink-0">
-                          <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
-                            <Icon className="w-5 h-5 text-primary" />
+                        <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-3 flex flex-col items-center gap-2">
+                          <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                            <Icon className="w-4 h-4 text-primary" />
                           </div>
                           <div className="text-center">
-                            <h4 className="text-primary font-bold uppercase tracking-widest text-[10px] mb-1">{season.name}</h4>
-                            <p className="text-[11px] font-bold text-primary uppercase tracking-tight leading-tight">
+                            <h4 className="text-primary font-bold uppercase tracking-widest text-[9px] mb-1">{season.name}</h4>
+                            <p className="text-[10px] font-bold text-primary uppercase tracking-tight leading-tight">
                               {season.description}
                             </p>
                           </div>
