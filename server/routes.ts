@@ -5,15 +5,15 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 
 async function seedData() {
+  // Clear existing data by checking announcements
   const announcementsList = await storage.getAnnouncements();
-  // We'll clear and re-seed to ensure all requirements are met
   if (announcementsList.length > 0) return;
 
   console.log("Seeding RND Hub data...");
 
-  // 1. Featured Section - No photos, no text
+  // 1. Featured Section - No text as per request
   await storage.createFeaturedContent({
-    title: "", // Empty as requested
+    title: "", 
     imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000",
     linkUrl: "#",
     active: true,
@@ -22,19 +22,19 @@ async function seedData() {
 
   // 2. Daily Announcements
   await storage.createAnnouncement({
-    title: "Welcome Back Students!",
-    summary: "A warm welcome to all new and returning students.",
-    content: "We are excited to start the new semester. Please check your timetables.",
+    title: "Welcome to RND Hub!",
+    summary: "Your central location for school information.",
+    content: "Check here daily for news, menu updates, and sports schedules.",
     date: new Date(),
     source: "Principal's Office"
   });
 
-  // 3. Food Section
+  // 3. Food Section - Today's Main dish only, location included
   const today = new Date().toISOString().split('T')[0];
   await storage.createMenuItem({
-    title: "Today's Main: Lasagna",
+    title: "Today's Main Dish",
     date: today,
-    description: "Classic meat lasagna with cheesy layers.",
+    description: "Chef's Special Lasagna with Garlic Bread",
     price: "$6.50",
     category: "Main",
     location: "Student Commons"
@@ -49,7 +49,7 @@ async function seedData() {
     contactEmail: "robotics@rnd.edu"
   });
 
-  // 5. Sports - Tryouts
+  // 5. Sports - Tryouts and Available Sports
   await storage.createSportsEvent({
     title: "Senior Boys Basketball Tryouts",
     date: new Date(Date.now() + 86400000 * 2),
@@ -57,42 +57,52 @@ async function seedData() {
     isTryout: true
   });
   
-  // Sports - Available Sports List (using clubs or special announcements)
-  await storage.createClub({
-    name: "Available Sports: Fall Season",
-    description: "Basketball, Volleyball, Cross Country, Soccer",
-    meetingTime: "Check schedule for details",
-    location: "Athletic Office"
+  await storage.createSportsEvent({
+    title: "Available Sports: Basketball, Volleyball, Soccer",
+    date: new Date(),
+    location: "Athletic Office",
+    isTryout: false
   });
 
   // 6. Dates / Schedule
-  // PA Days
+  // Daily Schedule
   await storage.createSchoolEvent({
-    title: "PA Day - Semester 1",
-    date: "2026-02-02",
-    type: "PA",
-    description: "Professional Activity Day - No School"
+    title: "Daily Schedule",
+    date: today,
+    type: "Schedule",
+    description: "Period 1: 8:30-9:45, Period 2: 9:50-11:05, Lunch: 11:05-11:50, Period 3: 11:55-1:10, Period 4: 1:15-2:30"
   });
-  // Holidays
+  
+  // Mass Schedule (Placeholder)
   await storage.createSchoolEvent({
-    title: "Family Day",
-    date: "2026-02-16",
-    type: "Holiday",
-    description: "Provincial Holiday"
-  });
-  // Mass
-  await storage.createSchoolEvent({
-    title: "Ash Wednesday Mass",
+    title: "Mass Day Schedule",
     date: "2026-02-18",
     type: "Mass",
-    description: "School-wide Mass at 9:00 AM"
+    description: "Special schedule: P1 (8:30-9:30), Mass (9:40-10:40), P2 (10:50-11:50)..."
   });
-  // Exams
+
+  // PA Days (Placeholder)
   await storage.createSchoolEvent({
-    title: "Final Exams",
-    date: "2026-06-20",
+    title: "PA Day",
+    date: "2026-02-02",
+    type: "PA Day",
+    description: "No school for students"
+  });
+
+  // Holidays (Placeholder)
+  await storage.createSchoolEvent({
+    title: "Family Day Holiday",
+    date: "2026-02-16",
+    type: "Holiday",
+    description: "School closed"
+  });
+
+  // Exams (Placeholder)
+  await storage.createSchoolEvent({
+    title: "Semester 1 Exams",
+    date: "2026-01-26",
     type: "Exam",
-    description: "Check individual schedule"
+    description: "Exam week begins"
   });
 
   console.log("RND Hub seeding complete.");
