@@ -21,7 +21,7 @@ export const menuItems = pgTable("menu_items", {
   description: text("description"),
   price: text("price"),
   category: text("category").default("Main"), // Main, Side, Drink
-  location: text("location"),
+  location: text("location"), // e.g., "Student Commons"
   imageUrl: text("image_url"),
 });
 
