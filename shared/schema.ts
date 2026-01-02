@@ -9,19 +9,19 @@ export const announcements = pgTable("announcements", {
   date: timestamp("date").defaultNow().notNull(),
   summary: text("summary").notNull(),
   content: text("content").notNull(),
-  source: text("source").default("Internal"), // e.g., SharePoint, Smores
+  source: text("source").default("Internal"),
   imageUrl: text("image_url"),
 });
 
 // 2. Cafeteria Menu
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
-  date: date("date").notNull(), // YYYY-MM-DD
-  title: text("title").notNull(), // e.g., "Pepperoni Pizza"
+  date: date("date").notNull(),
+  title: text("title").notNull(),
   description: text("description"),
   price: text("price"),
-  category: text("category").default("Main"), // Main, Side, Drink
-  location: text("location"), // e.g., "Student Commons"
+  category: text("category").default("Main"),
+  location: text("location"),
   imageUrl: text("image_url"),
 });
 
@@ -30,7 +30,7 @@ export const clubs = pgTable("clubs", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
   description: text("description").notNull(),
-  meetingTime: text("meeting_time"), // e.g., "Thursdays at lunch"
+  meetingTime: text("meeting_time"),
   location: text("location"),
   contactEmail: text("contact_email"),
   imageUrl: text("image_url"),
@@ -39,9 +39,9 @@ export const clubs = pgTable("clubs", {
 // 4. Sports Updates
 export const sportsEvents = pgTable("sports_events", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(), // e.g., "Senior Boys Basketball vs. Regi"
+  title: text("title").notNull(),
   date: timestamp("date").notNull(),
-  result: text("result"), // e.g., "W 54-40" or null if upcoming
+  result: text("result"),
   location: text("location"),
   isTryout: boolean("is_tryout").default(false),
   imageUrl: text("image_url"),
@@ -52,7 +52,7 @@ export const schoolEvents = pgTable("school_events", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   date: date("date").notNull(),
-  type: text("type").notNull(), // Exam, Holiday, Event, Schedule, Mass, PA Day
+  type: text("type").notNull(),
   description: text("description"),
 });
 
@@ -66,8 +66,6 @@ export const featuredContent = pgTable("featured_content", {
   order: serial("order"),
 });
 
-// --- Schemas ---
-
 export const insertAnnouncementSchema = createInsertSchema(announcements).omit({ id: true });
 export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: true });
 export const insertClubSchema = createInsertSchema(clubs).omit({ id: true });
@@ -75,22 +73,9 @@ export const insertSportsEventSchema = createInsertSchema(sportsEvents).omit({ i
 export const insertSchoolEventSchema = createInsertSchema(schoolEvents).omit({ id: true });
 export const insertFeaturedContentSchema = createInsertSchema(featuredContent).omit({ id: true });
 
-// --- Types ---
-
 export type Announcement = typeof announcements.$inferSelect;
-export type InsertAnnouncement = z.infer<typeof insertAnnouncementSchema>;
-
 export type MenuItem = typeof menuItems.$inferSelect;
-export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
-
 export type Club = typeof clubs.$inferSelect;
-export type InsertClub = z.infer<typeof insertClubSchema>;
-
 export type SportsEvent = typeof sportsEvents.$inferSelect;
-export type InsertSportsEvent = z.infer<typeof insertSportsEventSchema>;
-
 export type SchoolEvent = typeof schoolEvents.$inferSelect;
-export type InsertSchoolEvent = z.infer<typeof insertSchoolEventSchema>;
-
 export type FeaturedContent = typeof featuredContent.$inferSelect;
-export type InsertFeaturedContent = z.infer<typeof insertFeaturedContentSchema>;
