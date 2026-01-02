@@ -2,16 +2,17 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
-import { z } from "zod";
 
 async function seedData() {
-  // Clear existing to avoid duplicate seeds
   const announcementsList = await storage.getAnnouncements();
   if (announcementsList.length > 0) return;
 
   console.log("Seeding RND Hub data...");
 
-  // 1. Featured Section - No photos, no text as per request
+  const today = new Date();
+  const todayStr = today.toISOString().split('T')[0];
+
+  // 1. Featured Section - No text, Garnet background placeholder
   await storage.createFeaturedContent({
     title: "", 
     imageUrl: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1000",
@@ -25,22 +26,30 @@ async function seedData() {
     title: "Welcome to RND Hub!",
     summary: "Your central hub for school information.",
     content: "Keep up to date with the latest news, menus, and events.",
-    date: new Date(),
+    date: today,
     source: "Administration"
   });
 
-  // 3. Food Section - Main dish only, location included
-  const today = new Date().toISOString().split('T')[0];
+  // 3. Food Section - Today only, Main only, Location included
   await storage.createMenuItem({
-    title: "Main: Chicken Parmesan",
-    date: today,
+    title: "Chicken Parmesan",
+    date: todayStr,
     description: "Breaded chicken with marinara and mozzarella.",
     price: "$7.00",
     category: "Main",
     location: "Student Commons"
   });
 
-  // 4. Sports - Upcoming with tryouts & info
+  // 4. Clubs
+  await storage.createClub({
+    name: "Robotics Club",
+    description: "Build and program robots for competition.",
+    meetingTime: "Tuesdays after school",
+    location: "Room 104",
+    contactEmail: "robotics@rnd.edu"
+  });
+
+  // 5. Sports - Tryouts and Available Sports
   await storage.createSportsEvent({
     title: "Senior Girls Volleyball Tryouts",
     date: new Date(Date.now() + 86400000 * 3),
@@ -48,71 +57,57 @@ async function seedData() {
     isTryout: true
   });
   
-  // Available sports list
-  await storage.createClub({
-    name: "Available Sports",
-    description: "Basketball, Volleyball, Soccer, Football, Cross Country",
-    meetingTime: "Check Athletics Board",
-    location: "Athletic Office"
+  await storage.createSportsEvent({
+    title: "Junior Boys Basketball Tryouts",
+    date: new Date(Date.now() + 86400000 * 4),
+    location: "Main Gym",
+    isTryout: true
   });
 
-  // 5. Dates / Schedule
-  // Daily Schedule
-  await storage.createSchoolEvent({
-    title: "Period 1",
-    date: today,
-    type: "Schedule",
-    description: "8:30 - 9:45"
-  });
-  await storage.createSchoolEvent({
-    title: "Period 2",
-    date: today,
-    type: "Schedule",
-    description: "9:50 - 11:05"
-  });
-  await storage.createSchoolEvent({
-    title: "Lunch",
-    date: today,
-    type: "Schedule",
-    description: "11:05 - 11:50"
-  });
-  await storage.createSchoolEvent({
-    title: "Period 3",
-    date: today,
-    type: "Schedule",
-    description: "11:55 - 1:10"
-  });
-  await storage.createSchoolEvent({
-    title: "Period 4",
-    date: today,
-    type: "Schedule",
-    description: "1:15 - 2:30"
-  });
+  // 6. Dates / Schedule
+  const scheduleData = [
+    { title: "Period 1", time: "8:30 - 9:45" },
+    { title: "Period 2", time: "9:50 - 11:05" },
+    { title: "Lunch", time: "11:05 - 11:50" },
+    { title: "Period 3", time: "11:55 - 1:10" },
+    { title: "Period 4", time: "1:15 - 2:30" }
+  ];
 
-  // Placeholder Mass, PA Day, Holiday, Exam
+  for (const s of scheduleData) {
+    await storage.createSchoolEvent({
+      title: s.title,
+      date: todayStr,
+      type: "Schedule",
+      description: s.time
+    });
+  }
+
   await storage.createSchoolEvent({
-    title: "Mass Day Schedule",
-    date: "2026-01-20",
+    title: "School Mass Schedule",
+    date: "2026-02-18",
     type: "Mass",
-    description: "Revised times for liturgy"
+    description: "Period 1: 8:30-9:30 | Mass: 9:45-11:00 | Period 2: 11:05-12:05 | Lunch: 12:05-12:50 | Period 3: 12:55-1:40 | Period 4: 1:45-2:30"
   });
+
   await storage.createSchoolEvent({
-    title: "PA Day",
+    title: "Professional Activity Day",
     date: "2026-02-02",
     type: "PA Day",
-    description: "No classes for students"
+    description: "No school for students."
   });
+
   await storage.createSchoolEvent({
     title: "Family Day",
     date: "2026-02-16",
     type: "Holiday",
-    description: "School Closed"
+    description: "School closed."
   });
+
   await storage.createSchoolEvent({
-    title: "Final Exams",
-    date: "2026-06-18",
+    title: "Midterm Exams Period",
+    date: "2026-03-20",
     type: "Exams",
-    description: "Semester 2 Finals"
+    description: "Final assessment week."
   });
 
   console.log("RND Hub seeding complete.");
@@ -122,7 +117,6 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  
   seedData().catch(console.error);
 
   app.get(api.announcements.list.path, async (_req, res) => {
