@@ -17,7 +17,7 @@ export const announcements = pgTable("announcements", {
 export const menuItems = pgTable("menu_items", {
   id: serial("id").primaryKey(),
   date: date("date").notNull(), // YYYY-MM-DD
-  title: text("title").notNull(), // e.g., "Pepperoni Pizza"
+  title: text("title").notNull(), // e.g., "Today's Main: Lasagna"
   description: text("description"),
   price: text("price"),
   category: text("category").default("Main"), // Main, Side, Drink
@@ -39,9 +39,9 @@ export const clubs = pgTable("clubs", {
 // 4. Sports Updates
 export const sportsEvents = pgTable("sports_events", {
   id: serial("id").primaryKey(),
-  title: text("title").notNull(), // e.g., "Senior Boys Basketball vs. Regi"
+  title: text("title").notNull(), // e.g., "Senior Boys Basketball Tryouts"
   date: timestamp("date").notNull(),
-  result: text("result"), // e.g., "W 54-40" or null if upcoming
+  result: text("result"), // e.g., "Upcoming"
   location: text("location"),
   isTryout: boolean("is_tryout").default(false),
   imageUrl: text("image_url"),
