@@ -64,7 +64,38 @@ async function seedData() {
     isTryout: true
   });
 
-  // 6. Dates / Schedule
+  // Categorized Available Sports
+  const seasonalSports = [
+    {
+      name: "Fall Season Sports",
+      description: "Cross Country, Football, Boys Volleyball, Girls Basketball, Golf, Girls Field Hockey",
+      location: "Check Athletics Board",
+    },
+    {
+      name: "Winter Season Sports",
+      description: "Girls Volleyball, Boys Basketball, Curling, Hockey, Badminton",
+      location: "Check Athletics Board",
+    },
+    {
+      name: "Spring Season Sports",
+      description: "Soccer, Track & Field, Girls Softball, Tennis, Baseball",
+      location: "Check Athletics Board",
+    },
+    {
+      name: "Year-Round Sports",
+      description: "Cheer & Dance",
+      location: "Main Gym",
+    }
+  ];
+
+  for (const sport of seasonalSports) {
+    await storage.createClub({
+      name: sport.name,
+      description: sport.description,
+      meetingTime: "Seasonal",
+      location: sport.location,
+    });
+  }
   const scheduleData = [
     { title: "Period 1", time: "8:30 - 9:45" },
     { title: "Period 2", time: "9:50 - 11:05" },
