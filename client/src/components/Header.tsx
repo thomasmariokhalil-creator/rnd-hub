@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import logoImage from "@assets/image_1767329180834.png";
+import logoImage from "@assets/image_1767332860633.png";
 
 export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: string }) {
   return (
