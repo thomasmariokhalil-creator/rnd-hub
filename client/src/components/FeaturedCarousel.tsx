@@ -25,9 +25,9 @@ export function FeaturedCarousel() {
                 {/* As requested: no photos at this time, title removed from UI, keeping structure for easy future additions */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80 opacity-90" />
                 <div className="relative z-10 p-10 text-center">
-                  <div className="w-24 h-24 bg-secondary rounded-3xl mx-auto mb-6 flex items-center justify-center shadow-2xl rotate-3 group-hover:rotate-0 transition-transform duration-500">
-                    <span className="text-primary font-black text-4xl font-display uppercase tracking-tighter">RND</span>
-                  </div>
+                  <h2 className="font-display font-black text-3xl md:text-5xl text-white mb-6 uppercase tracking-tighter drop-shadow-lg">
+                    Welcome to the Student Hub
+                  </h2>
                   <div className="h-1 w-12 bg-secondary mx-auto rounded-full" />
                 </div>
               </div>
