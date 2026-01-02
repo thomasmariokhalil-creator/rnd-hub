@@ -2,7 +2,14 @@ import { MobileHeader } from "@/components/Header";
 import { SectionHeader } from "@/components/SectionHeader";
 import { useSports, useClubs } from "@/hooks/use-data";
 import { format } from "date-fns";
-import { Trophy, CalendarClock, Info, ShieldCheck } from "lucide-react";
+import { Trophy, CalendarClock, Info, ShieldCheck, Leaf, Snowflake, Flower2, Activity } from "lucide-react";
+
+const SEASON_ICONS: Record<string, any> = {
+  "Fall": Leaf,
+  "Winter": Snowflake,
+  "Spring": Flower2,
+  "Year-Round": Activity
+};
 
 export default function Sports() {
   const { data: sports, isLoading: sportsLoading } = useSports();
@@ -83,14 +90,22 @@ export default function Sports() {
                 <div className="grid grid-cols-1 gap-4">
                   {clubs
                     .filter(c => c.name.includes("Season") || c.name.includes("Year-Round"))
-                    .map(season => (
-                      <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-5">
-                        <h4 className="text-primary font-bold uppercase tracking-widest text-xs mb-2">{season.name}</h4>
-                        <p className="text-sm font-bold text-primary uppercase tracking-tight leading-relaxed">
-                          {season.description}
-                        </p>
-                      </div>
-                    ))}
+                    .map(season => {
+                      const Icon = Object.entries(SEASON_ICONS).find(([key]) => season.name.includes(key))?.[1] || Info;
+                      return (
+                        <div key={season.id} className="bg-secondary/10 border border-secondary/20 rounded-xl p-5 flex gap-4">
+                          <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center shrink-0">
+                            <Icon className="w-5 h-5 text-primary" />
+                          </div>
+                          <div>
+                            <h4 className="text-primary font-bold uppercase tracking-widest text-xs mb-2">{season.name}</h4>
+                            <p className="text-sm font-bold text-primary uppercase tracking-tight leading-relaxed">
+                              {season.description}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             )}
