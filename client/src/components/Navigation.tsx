@@ -2,6 +2,8 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+import logoImage from "@assets/image_1767333029341.png";
+
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/news", label: "News", icon: Newspaper },
@@ -41,11 +43,9 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer group">
-              <div className="w-10 h-10 bg-secondary rounded-lg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-                <span className="text-primary font-display font-bold text-xl">R</span>
-              </div>
+              <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-md object-cover group-hover:scale-105 transition-transform" />
               <div>
-                <h1 className="font-display font-bold text-xl leading-none">RND Student Hub</h1>
+                <h1 className="font-display font-bold text-xl leading-none">RND Hub</h1>
                 <p className="text-xs text-primary-foreground/80 font-medium">Regiopolis-Notre Dame</p>
               </div>
             </div>

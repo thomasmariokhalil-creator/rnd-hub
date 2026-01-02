@@ -3,11 +3,11 @@ import logoImage from "@assets/image_1767333029341.png";
 
 export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: string }) {
   return (
-    <header className="md:hidden sticky top-0 bg-primary text-primary-foreground z-40 px-6 py-4 shadow-lg border-b border-white/10">
+    <header className="sticky top-0 bg-primary text-primary-foreground z-40 px-6 py-4 shadow-lg border-b border-white/10">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/">
-            <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-sm" />
+            <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-sm object-cover" />
           </Link>
           <div>
             <Link href="/">
