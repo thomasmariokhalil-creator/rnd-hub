@@ -1,4 +1,4 @@
-import { useAnnouncements, useMenuItem, useFeaturedContent, useSports } from "@/hooks/use-data";
+import { useAnnouncements, useMenu, useFeatured, useSports } from "@/hooks/use-data";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
@@ -11,8 +11,8 @@ import { useState, useEffect } from "react";
 
 export default function Home() {
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
-  const { data: menuItems, isLoading: menuLoading } = useMenuItem();
-  const { data: featured, isLoading: featuredLoading } = useFeaturedContent();
+  const { data: menuItems, isLoading: menuLoading } = useMenu();
+  const { data: featured, isLoading: featuredLoading } = useFeatured();
   const { data: sports, isLoading: sportsLoading } = useSports();
   
   const [favorites, setFavorites] = useState<string[]>([]);
