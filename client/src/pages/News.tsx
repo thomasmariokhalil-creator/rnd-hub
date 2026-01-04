@@ -16,15 +16,15 @@ function NewsList() {
     <div className="pb-24 md:pb-10 bg-background min-h-screen">
       <MobileHeader title="Daily News" />
       
-      <main className="pt-6 md:pt-32 max-w-7xl mx-auto px-4 md:px-6">
-        <div className="mb-12 animate-in">
-          <p className="text-[10px] font-bold text-primary/70 uppercase tracking-[0.2em] mb-2 px-2 py-0.5 bg-primary/5 w-fit rounded-full">Today's Date</p>
-          <h2 className="text-3xl font-display font-black text-foreground uppercase tracking-tight">{todayStr}</h2>
+      <main className="md:pt-28 max-w-4xl mx-auto px-4 md:px-6">
+        <div className="mb-8 animate-in">
+          <p className="text-[10px] font-bold text-primary uppercase tracking-[0.2em] mb-1">Today's Date</p>
+          <h2 className="text-2xl font-display font-black text-foreground uppercase tracking-tight">{todayStr}</h2>
         </div>
 
         <SectionHeader title="Announcements" description="Stay up to date with RND life." />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid gap-4">
           {news?.map((item, idx) => (
             <Link key={item.id} href={`/news/${item.id}`}>
               <article 
