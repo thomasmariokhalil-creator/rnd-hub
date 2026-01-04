@@ -22,11 +22,23 @@ export function FeaturedCarousel() {
           {featured.map((item) => (
             <div key={item.id} className="relative flex-[0_0_100%] min-w-0">
               <div className="relative aspect-[16/9] md:aspect-[21/9] bg-primary flex items-center justify-center overflow-hidden">
-                {/* As requested: no photos at this time, title removed from UI, keeping structure for easy future additions */}
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80 opacity-90" />
+                {item.imageUrl ? (
+                  <>
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.title} 
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/40" />
+                  </>
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary to-primary/80 opacity-90" />
+                  </>
+                )}
                 <div className="relative z-10 p-10 text-center">
                   <h2 className="font-display font-black text-3xl md:text-5xl text-white mb-6 uppercase tracking-tighter drop-shadow-lg">
-                    Welcome to the Student Hub
+                    {item.title}
                   </h2>
                   <div className="h-1 w-12 bg-secondary mx-auto rounded-full" />
                 </div>
