@@ -29,6 +29,11 @@ export default function Home() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4);
 
+  return (
+    <div className="pb-24 md:pb-10 bg-background min-h-screen">
+      <MobileHeader />
+      
+      <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
         {featuredLoading ? (
           <Skeleton className="w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl mb-8" />
         ) : (
