@@ -33,15 +33,15 @@ export default function Home() {
     <div className="pb-24 md:pb-10 bg-background min-h-screen">
       <MobileHeader />
       
-      <main className="pt-6 md:pt-32 max-w-7xl mx-auto px-4 md:px-6">
+      <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
         {featuredLoading ? (
           <Skeleton className="w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl mb-8" />
         ) : (
           featured && <FeaturedCarousel items={featured} />
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-          <div className="md:col-span-2 space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mt-8">
+          <div className="md:col-span-2 space-y-10">
             {/* Prominent Sports Updates for Favorites */}
             {favoriteUpdates && favoriteUpdates.length > 0 && (
               <section className="animate-in">
@@ -91,13 +91,13 @@ export default function Home() {
                   [1, 2, 3].map(i => <Skeleton key={i} className="h-32 w-full rounded-xl" />)
                 ) : (
                   latestNews?.map((news) => (
-                    <div key={news.id} className="bg-card rounded-2xl border border-border p-6 shadow-sm hover:shadow-md transition-all cursor-pointer">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-[10px] font-bold text-primary/70 uppercase tracking-widest px-2 py-0.5 bg-primary/5 rounded-full">{format(new Date(news.date), 'MMMM d, yyyy')}</span>
+                    <div key={news.id} className="bg-card rounded-2xl border border-border p-5 hover:border-primary/20 transition-all">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-[10px] font-bold text-primary uppercase tracking-widest">{format(new Date(news.date), 'MMMM d, yyyy')}</span>
                         <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">{news.source}</span>
                       </div>
-                      <h3 className="font-display font-bold text-xl mb-2 text-foreground group-hover:text-primary transition-colors">{news.title}</h3>
-                      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-2">{news.summary}</p>
+                      <h3 className="font-bold text-lg mb-2">{news.title}</h3>
+                      <p className="text-muted-foreground text-sm line-clamp-2">{news.summary}</p>
                     </div>
                   ))
                 )}
@@ -106,35 +106,35 @@ export default function Home() {
           </div>
 
           <aside className="space-y-8">
-            <section className="bg-primary rounded-2xl p-8 text-white shadow-xl relative overflow-hidden group hover:shadow-primary/20 transition-all border border-white/5">
-              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform rotate-12">
-                <Utensils className="w-32 h-32" />
+            <section className="bg-primary rounded-2xl p-6 text-white shadow-lg relative overflow-hidden group hover:shadow-primary/20 transition-all">
+              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                <Utensils className="w-24 h-24" />
               </div>
               <div className="relative z-10">
-                <h3 className="font-display font-bold text-2xl mb-1 uppercase tracking-tight">Today's Menu</h3>
-                <p className="text-white/60 text-[11px] font-bold uppercase tracking-widest mb-6 border-b border-white/10 pb-4">{format(new Date(), 'EEEE, MMMM do')}</p>
+                <h3 className="font-display font-bold text-xl mb-1 uppercase tracking-tight">Today's Menu</h3>
+                <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-4">{format(new Date(), 'EEEE, MMMM do')}</p>
                 
                 {menuLoading ? (
                   <Skeleton className="h-10 w-full bg-white/20" />
                 ) : todayMenu ? (
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <div>
-                      <p className="font-bold text-xl leading-tight text-secondary-foreground">{todayMenu.title}</p>
-                      <p className="text-white/80 text-sm mt-2 leading-relaxed">{todayMenu.description}</p>
+                      <p className="font-bold text-lg leading-tight">{todayMenu.title}</p>
+                      <p className="text-white/70 text-xs mt-1">{todayMenu.description}</p>
                     </div>
-                    <div className="flex items-center justify-between pt-4">
-                      <span className="text-xs font-bold uppercase tracking-widest opacity-80 flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-full">
-                        <MapPin className="w-3.5 h-3.5" /> {todayMenu.location || "Commons"}
+                    <div className="flex items-center justify-between pt-2 border-t border-white/10">
+                      <span className="text-xs font-bold uppercase tracking-widest opacity-80 flex items-center gap-1">
+                        <MapPin className="w-3 h-3" /> {todayMenu.location || "Commons"}
                       </span>
-                      <span className="font-display font-black text-2xl text-secondary">{todayMenu.price}</span>
+                      <span className="font-display font-bold text-secondary">{todayMenu.price}</span>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-white/60 text-sm italic">No menu items listed for today.</p>
+                  <p className="text-white/60 text-xs italic">No menu items listed for today.</p>
                 )}
                 
                 <Link href="/menu">
-                  <button className="w-full mt-8 bg-secondary text-primary hover:bg-secondary/90 rounded-xl py-3 text-xs font-bold uppercase tracking-[0.2em] transition-all shadow-lg active:scale-[0.98]">
+                  <button className="w-full mt-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl py-2 text-[10px] font-bold uppercase tracking-[0.2em] transition-colors">
                     View Full Menu
                   </button>
                 </Link>
