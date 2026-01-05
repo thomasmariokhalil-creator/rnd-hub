@@ -1,13 +1,21 @@
-/* This kills any hidden overlays or extra boxes */
-.replit-overlay,
-#replit-overlay,
-.overlay,
-[class*="overlay"],
-[class*="watermark-bg"] {
+/* This targets the specific 'wrapper' Replit often uses for its tools */
+#replit-badge-root, 
+.replit-auth-button,
+iframe[src*="replit"],
+div[class*="replit"],
+[data-replit-badge] {
     display: none !important;
-    opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
+    z-index: -1 !important;
+}
+
+/* This hides any 'ghost' overlays that are semi-transparent */
+div[style*="opacity"], 
+div[style*="rgba(255, 255, 255"] {
+    if (this.offsetWidth < 100 && this.offsetHeight < 100) {
+        display: none !important;
+    }
 }
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
 
