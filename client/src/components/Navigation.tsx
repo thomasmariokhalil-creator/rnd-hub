@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Make sure this path stays exactly as it was in your file
 import logoImage from "@assets/image_1767333029341.png";
 
 const NAV_ITEMS = [
@@ -22,7 +23,9 @@ export function Navigation() {
       <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/50 z-50 md:hidden pb-safe">
         <div className="flex justify-around items-center h-16 px-2">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-            const isActive = location === href;
+            // Improved logic: treats empty location or "/" as active for Home
+            const isActive = location === href || (location === "" && href === "/");
+
             return (
               <Link key={href} href={href}>
                 <div className={cn(
@@ -53,7 +56,7 @@ export function Navigation() {
 
           <nav className="flex items-center gap-1">
             {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-              const isActive = location === href;
+              const isActive = location === href || (location === "" && href === "/");
               return (
                 <Link key={href} href={href}>
                   <div className={cn(
