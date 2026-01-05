@@ -1,3 +1,16 @@
+/* Targeted Sledgehammer Fix */
+div.fixed.top-0.z-\[100\],
+div[class*="backdrop-blur"],
+div[class*="bg-background/80"],
+.fixed.inset-0.z-50 {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    height: 0px !important;
+    width: 0px !important;
+    overflow: hidden !important;
+}
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap');
 
 @tailwind base;
@@ -50,17 +63,4 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
   }
-}
-/* Targeted Sledgehammer Fix */
-div.fixed.top-0.z-\[100\],
-div[class*="backdrop-blur"],
-div[class*="bg-background/80"],
-.fixed.inset-0.z-50 {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    height: 0px !important;
-    width: 0px !important;
-    overflow: hidden !important;
 }
