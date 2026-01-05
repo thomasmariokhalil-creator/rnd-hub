@@ -51,9 +51,16 @@
     font-family: var(--font-display);
   }
 }
-/* Targets the specific translucent floating square you found */
-div.fixed.top-0.z-\[100\] {
+/* Targeted Sledgehammer Fix */
+div.fixed.top-0.z-\[100\],
+div[class*="backdrop-blur"],
+div[class*="bg-background/80"],
+.fixed.inset-0.z-50 {
     display: none !important;
     visibility: hidden !important;
+    opacity: 0 !important;
     pointer-events: none !important;
+    height: 0px !important;
+    width: 0px !important;
+    overflow: hidden !important;
 }
