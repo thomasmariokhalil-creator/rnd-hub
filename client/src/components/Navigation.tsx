@@ -2,8 +2,8 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Make sure this path stays exactly as it was in your file
-import logoImage from "@assets/image_1767333029341.png";
+// We swapped the import for a direct string path to your new logo
+const logoImage = "/attached_assets/school_logo.png";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
@@ -23,7 +23,6 @@ export function Navigation() {
       <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/50 z-50 md:hidden pb-safe">
         <div className="flex justify-around items-center h-16 px-2">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-            // Improved logic: treats empty location or "/" as active for Home
             const isActive = location === href || (location === "" && href === "/");
 
             return (
@@ -46,7 +45,12 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer group">
-              <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-md object-cover group-hover:scale-105 transition-transform" />
+              {/* This img tag now uses the new logo path */}
+              <img 
+                src={logoImage} 
+                alt="RND Hub Logo" 
+                className="w-10 h-10 rounded-lg shadow-md object-cover group-hover:scale-105 transition-transform" 
+              />
               <div>
                 <h1 className="font-display font-bold text-xl leading-none">RND Hub</h1>
                 <p className="text-xs text-primary-foreground/80 font-medium">Regiopolis-Notre Dame</p>
