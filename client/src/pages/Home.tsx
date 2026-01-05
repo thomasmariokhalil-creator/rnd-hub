@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
 
-// Path to your uploaded school logo
+// Path to your logo - ensure it is named school_logo.png in the attached_assets folder
 const schoolLogo = "/attached_assets/school_logo.png";
 
 export default function Home() {
@@ -38,15 +38,19 @@ export default function Home() {
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
 
-        {/* Updated Hero Section with your Logo and "Welcome to the Student Hub" */}
+        {/* Hero Section with Logo and "Welcome to the Student Hub" */}
         <section className="mb-8 mt-4 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-primary p-8 md:p-12 text-white shadow-xl border-b-4 border-secondary/30">
             <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
               <div className="shrink-0">
                 <img 
                   src={schoolLogo} 
-                  alt="School Logo" 
+                  alt="RND Logo" 
                   className="w-24 h-24 md:w-32 md:h-32 rounded-3xl shadow-2xl bg-white p-2 object-contain transform hover:rotate-3 transition-transform"
+                  onError={(e) => {
+                    // Fallback if image path is slightly different
+                    (e.target as HTMLImageElement).src = "attached_assets/school_logo.png";
+                  }}
                 />
               </div>
               <div className="text-center md:text-left">
@@ -58,12 +62,11 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            {/* Background pattern for texture */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 -skew-x-12 translate-x-1/2"></div>
           </div>
         </section>
 
-        {/* Carousel only appears if there is dynamic featured content */}
+        {/* Carousel Section */}
         {!featuredLoading && featured && featured.length > 0 && (
           <div className="mb-10">
             <SectionHeader title="Spotlight" description="Featured highlights" />
@@ -73,7 +76,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-10">
-            {/* Favorite Sports Updates */}
+            {/* Team Updates */}
             {favoriteUpdates && favoriteUpdates.length > 0 && (
               <section className="animate-in">
                 <div className="flex items-center justify-between mb-4">
@@ -127,4 +130,46 @@ export default function Home() {
           {/* Sidebar */}
           <aside className="space-y-8">
             <section className="bg-primary rounded-[2rem] p-6 text-white shadow-xl relative overflow-hidden group">
-              <div
+              <div className="relative z-10">
+                <h3 className="font-display font-bold text-xl mb-1 flex items-center gap-2">
+                  <Utensils className="w-5 h-5 text-secondary" /> Today's Menu
+                </h3>
+                <p className="text-white/60 text-[10px] font-bold uppercase tracking-widest mb-4">
+                  {format(new Date(), 'EEEE, MMM do')}
+                </p>
+                {menuLoading ? (
+                  <Skeleton className="h-10 w-full bg-white/10" />
+                ) : todayMenu ? (
+                  <div className="space-y-2">
+                    <p className="font-bold text-lg leading-tight">{todayMenu.title}</p>
+                    <p className="text-white/70 text-xs line-clamp-2">{todayMenu.description}</p>
+                  </div>
+                ) : (
+                  <p className="text-white/60 text-xs italic">Check back later for today's menu.</p>
+                )}
+                <Link href="/menu">
+                  <button className="w-full mt-6 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl py-2 text-[10px] font-bold uppercase tracking-widest transition-colors">
+                    View Full Menu
+                  </button>
+                </Link>
+              </div>
+            </section>
+
+            <section className="bg-card border border-border rounded-2xl p-6 shadow-sm">
+              <h3 className="font-display font-bold text-lg text-primary mb-4 flex items-center gap-2">
+                <Calendar className="w-5 h-5 text-secondary" /> Quick Links
+              </h3>
+              <div className="space-y-3">
+                <Link href="/events">
+                  <Button variant="outline" className="w-full justify-start text-xs font-bold uppercase tracking-widest">
+                    School Calendar
+                  </Button>
+                </Link>
+              </div>
+            </section>
+          </aside>
+        </div>
+      </main>
+    </div>
+  );
+}

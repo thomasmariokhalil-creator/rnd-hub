@@ -2,8 +2,8 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// We swapped the import for a direct string path to your new logo
-const logoImage = "/attached_assets/school_logo.png";
+// Removed the slash from the beginning to match how Replit serves static assets
+const logoImage = "attached_assets/school_logo.png";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
@@ -45,15 +45,18 @@ export function Navigation() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/">
             <div className="flex items-center gap-3 cursor-pointer group">
-              {/* This img tag now uses the new logo path */}
               <img 
                 src={logoImage} 
                 alt="RND Hub Logo" 
-                className="w-10 h-10 rounded-lg shadow-md object-cover group-hover:scale-105 transition-transform" 
+                className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
+                onError={(e) => {
+                  // If the image fails to load, this prevents a crash
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
               />
               <div>
                 <h1 className="font-display font-bold text-xl leading-none">RND Hub</h1>
-                <p className="text-xs text-primary-foreground/80 font-medium">Regiopolis-Notre Dame</p>
+                <p className="text-xs text-primary-foreground/80 font-medium uppercase tracking-tight">Regiopolis-Notre Dame</p>
               </div>
             </div>
           </Link>
