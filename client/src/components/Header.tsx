@@ -1,11 +1,12 @@
 import { Link } from "wouter";
 
 export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: string }) {
-  // Using a direct path string prevents the build from failing if the file is missing
-  const logoImage = "/attached_assets/school_logo.png";
+  // CORRECT PATH: Since it is in the public folder, we just use /
+  const logoImage = "/school_logo.png";
 
   return (
-    <header className="sticky top-0 bg-primary text-primary-foreground z-40 px-6 py-4 shadow-lg border-b border-white/10">
+    // FIXED CLASS: Added 'md:hidden' so this header disappears on laptops/desktops
+    <header className="sticky top-0 bg-primary text-primary-foreground z-40 px-6 py-4 shadow-lg border-b border-white/10 md:hidden">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/">
@@ -16,7 +17,6 @@ export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: s
                 className="w-10 h-10 rounded-lg shadow-sm object-contain bg-white p-0.5" 
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  // If it fails, we hide the broken icon to keep it professional
                   target.style.display = 'none';
                 }}
               />

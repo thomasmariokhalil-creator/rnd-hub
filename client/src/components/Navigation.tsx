@@ -2,6 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
+// Since it's in the public folder, this is the correct path
 const logoImage = "/school_logo.png";
 
 const NAV_ITEMS = [
@@ -18,7 +19,7 @@ export function Navigation() {
 
   return (
     <>
-      {/* Mobile Bottom Navigation */}
+      {/* Mobile Bottom Navigation - Stays hidden on desktop */}
       <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/50 z-50 md:hidden pb-safe">
         <div className="flex justify-around items-center h-16 px-2">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
@@ -39,7 +40,7 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Desktop Top Navigation */}
+      {/* Desktop Top Navigation - Strictly hidden on mobile to stop "Two Layers" */}
       <header className="hidden md:block fixed top-0 left-0 right-0 bg-primary text-primary-foreground z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/">
@@ -49,14 +50,8 @@ export function Navigation() {
                 alt="RND Hub Logo" 
                 className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
                 onError={(e) => {
-                  const target = e.target as HTMLImageElement;
-                  // Final check: if the relative path failed, try the absolute path just in case
-                  if (!target.src.includes('/attached_assets/')) {
-                    target.src = "/attached_assets/school_logo.png";
-                  } else {
-                    // Fail-safe to keep the UI clean
-                    target.style.display = 'none';
-                  }
+                  // If /school_logo.png fails, it hides the image instead of looking for old folders
+                  (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
               <div>
