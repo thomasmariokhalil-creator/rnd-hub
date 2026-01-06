@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Added the leading slash back - this is the most reliable way for Vite to find the asset
+// This is the primary path the app will try first
 const logoImage = "/attached_assets/school_logo.png";
 
 const NAV_ITEMS = [
@@ -50,10 +50,15 @@ export function Navigation() {
                 alt="RND Hub Logo" 
                 className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
                 onError={(e) => {
-                  // Fallback for different environments
                   const target = e.target as HTMLImageElement;
-                  if (!target.src.includes('attached_assets')) {
+                  // If /attached_assets/ fails, try the relative path
+                  if (target.src.startsWith(window.location.origin + '/attached_assets/')) {
+                    console.log("Logo failed with leading slash, trying relative path...");
                     target.src = "attached_assets/school_logo.png";
+                  } else {
+                    // Final fail-safe: Hide the broken image icon so it stays professional
+                    console.error("Logo could not be loaded from any known path.");
+                    target.style.opacity = '0';
                   }
                 }}
               />
