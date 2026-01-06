@@ -2,8 +2,8 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Removed the slash from the beginning to match how Replit serves static assets
-const logoImage = "attached_assets/school_logo.png";
+// Added the leading slash back - this is the most reliable way for Vite to find the asset
+const logoImage = "/attached_assets/school_logo.png";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
@@ -50,8 +50,11 @@ export function Navigation() {
                 alt="RND Hub Logo" 
                 className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
                 onError={(e) => {
-                  // If the image fails to load, this prevents a crash
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  // Fallback for different environments
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.includes('attached_assets')) {
+                    target.src = "attached_assets/school_logo.png";
+                  }
                 }}
               />
               <div>

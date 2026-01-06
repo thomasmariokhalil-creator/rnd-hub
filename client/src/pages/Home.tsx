@@ -3,14 +3,11 @@ import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
 import { format } from "date-fns";
-import { Utensils, Calendar, ArrowRight, Star, MapPin, Activity } from "lucide-react";
+import { Utensils, Calendar, Star, Activity } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-
-// Path to your logo - ensure it is named school_logo.png in the attached_assets folder
-const schoolLogo = "/attached_assets/school_logo.png";
 
 export default function Home() {
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
@@ -28,6 +25,12 @@ export default function Home() {
   const todayMenu = menuItems?.find(item => item.date === new Date().toISOString().split('T')[0]);
   const latestNews = announcements?.slice(0, 3);
 
+  // 1. FILTER: This removes any item titled "Welcome" from the spotlight database
+  const filteredFeatured = featured?.filter(item => 
+    !item.title.toLowerCase().includes("welcome") && 
+    !item.title.toLowerCase().includes("student hub")
+  );
+
   const favoriteUpdates = sports?.filter(s => favorites.includes(s.sportName))
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4);
@@ -38,39 +41,27 @@ export default function Home() {
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
 
-        {/* Hero Section with Logo and "Welcome to the Student Hub" */}
+        {/* 2. HERO: Fixed to be Text-Only (Logo image removed as requested) */}
         <section className="mb-8 mt-4 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-primary p-8 md:p-12 text-white shadow-xl border-b-4 border-secondary/30">
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-8">
-              <div className="shrink-0">
-                <img 
-                  src={schoolLogo} 
-                  alt="RND Logo" 
-                  className="w-24 h-24 md:w-32 md:h-32 rounded-3xl shadow-2xl bg-white p-2 object-contain transform hover:rotate-3 transition-transform"
-                  onError={(e) => {
-                    // Fallback if image path is slightly different
-                    (e.target as HTMLImageElement).src = "attached_assets/school_logo.png";
-                  }}
-                />
-              </div>
-              <div className="text-center md:text-left">
-                <h1 className="font-display text-3xl md:text-5xl font-black mb-3 tracking-tight">
-                  Welcome to the Student Hub
-                </h1>
-                <p className="text-white/80 text-sm md:text-lg max-w-md font-medium">
-                  Official connection for Regiopolis-Notre Dame students.
-                </p>
-              </div>
+            <div className="relative z-10 text-center md:text-left">
+              <h1 className="font-display text-4xl md:text-6xl font-black mb-3 tracking-tight">
+                Welcome to the Student Hub
+              </h1>
+              <p className="text-white/80 text-sm md:text-xl max-w-md font-medium">
+                Official connection for Regiopolis-Notre Dame students.
+              </p>
             </div>
+            {/* Background pattern for texture */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 -skew-x-12 translate-x-1/2"></div>
           </div>
         </section>
 
-        {/* Carousel Section */}
-        {!featuredLoading && featured && featured.length > 0 && (
+        {/* 3. CAROUSEL: Now uses the "filteredFeatured" list to prevent double welcome */}
+        {!featuredLoading && filteredFeatured && filteredFeatured.length > 0 && (
           <div className="mb-10">
             <SectionHeader title="Spotlight" description="Featured highlights" />
-            <FeaturedCarousel items={featured} />
+            <FeaturedCarousel items={filteredFeatured} />
           </div>
         )}
 
