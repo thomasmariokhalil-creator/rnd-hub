@@ -2,8 +2,7 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// Removed the leading slash to fix the "broken link" on the laptop
-const logoImage = "attached_assets/school_logo.png";
+const logoImage = "./school_logo.png";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
