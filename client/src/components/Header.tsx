@@ -1,5 +1,6 @@
 import { Link } from "wouter";
-import logoImage from "@assets/image_1767333029341.png";
+// Changed the line below to point to your actual logo
+import logoImage from "../../attached_assets/school_logo.png";
 
 export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: string }) {
   return (
@@ -7,7 +8,7 @@ export function MobileHeader({ title, subtitle }: { title?: string, subtitle?: s
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link href="/">
-            <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-sm object-cover" />
+            <img src={logoImage} alt="RND Hub Logo" className="w-10 h-10 rounded-lg shadow-sm object-cover bg-white" />
           </Link>
           <div>
             <Link href="/">
