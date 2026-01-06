@@ -2,8 +2,8 @@ import { Link, useLocation } from "wouter";
 import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-// This is the primary path the app will try first
-const logoImage = "/attached_assets/school_logo.png";
+// Removed the leading slash to fix the "broken link" on the laptop
+const logoImage = "attached_assets/school_logo.png";
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
@@ -51,14 +51,12 @@ export function Navigation() {
                 className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
-                  // If /attached_assets/ fails, try the relative path
-                  if (target.src.startsWith(window.location.origin + '/attached_assets/')) {
-                    console.log("Logo failed with leading slash, trying relative path...");
-                    target.src = "attached_assets/school_logo.png";
+                  // Final check: if the relative path failed, try the absolute path just in case
+                  if (!target.src.includes('/attached_assets/')) {
+                    target.src = "/attached_assets/school_logo.png";
                   } else {
-                    // Final fail-safe: Hide the broken image icon so it stays professional
-                    console.error("Logo could not be loaded from any known path.");
-                    target.style.opacity = '0';
+                    // Fail-safe to keep the UI clean
+                    target.style.display = 'none';
                   }
                 }}
               />
