@@ -12,11 +12,11 @@ import Menu from "@/pages/Menu";
 import Clubs from "@/pages/Clubs";
 import Sports from "@/pages/Sports";
 import Events from "@/pages/Events";
-import Dates from "@/pages/Dates";
-import SnowDay from "@/pages/SnowDay";
-import Pro from "@/pages/Pro";
-import About from "@/pages/About";
-import MapPage from "@/pages/Map";
+import Dates from "./pages/Dates";
+import SnowDay from "./pages/SnowDay";
+import Pro from "./pages/Pro";
+import About from "./pages/About";
+import MapPage from "./pages/Map";
 
 function Router() {
   return (

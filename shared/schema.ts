@@ -77,8 +77,14 @@ export const insertSchoolEventSchema = createInsertSchema(schoolEvents).omit({ i
 export const insertFeaturedContentSchema = createInsertSchema(featuredContent).omit({ id: true });
 
 export type Announcement = typeof announcements.$inferSelect;
+export type InsertAnnouncement = z.infer<typeof insertAnnouncementSchema>;
 export type MenuItem = typeof menuItems.$inferSelect;
+export type InsertMenuItem = z.infer<typeof insertMenuItemSchema>;
 export type Club = typeof clubs.$inferSelect;
+export type InsertClub = z.infer<typeof insertClubSchema>;
 export type SportsEvent = typeof sportsEvents.$inferSelect;
+export type InsertSportsEvent = z.infer<typeof insertSportsEventSchema>;
 export type SchoolEvent = typeof schoolEvents.$inferSelect;
+export type InsertSchoolEvent = z.infer<typeof insertSchoolEventSchema>;
 export type FeaturedContent = typeof featuredContent.$inferSelect;
+export type InsertFeaturedContent = z.infer<typeof insertFeaturedContentSchema>;
