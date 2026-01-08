@@ -3,7 +3,7 @@ import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
 import { format } from "date-fns";
-import { Utensils, Calendar, Star, Activity, Shirt, Users, CloudSnow } from "lucide-react";
+import { Utensils, Calendar, Star, Activity, Shirt, Users, CloudSnow, AlertTriangle } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -40,11 +40,27 @@ export default function Home() {
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .slice(0, 4);
 
+  // Example probability - in a real app this would come from an API
+  const snowDayProbability = 55;
+
+  // Example probability - in a real app this would come from an API
+  const snowDayProbability = 55;
+
   return (
-    <div className="pb-24 md:pb-10 bg-background min-h-screen">
+    <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
+      {/* Smart Snow Day Warning - Garnet-colored banner at the VERY top */}
+      {snowDayProbability > 50 && (
+        <div className="bg-[#800000] text-white py-3 px-4 text-center sticky top-0 z-[100] shadow-md border-b border-white/10">
+          <Link href="/snow-day" className="flex items-center justify-center gap-2 font-bold text-sm md:text-base hover:underline underline-offset-4">
+            <AlertTriangle className="w-5 h-5 text-[#FFD700]" />
+            <span>⚠️ Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
+          </Link>
+        </div>
+      )}
+
       <MobileHeader />
 
-      <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
+      <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6 flex-1">
 
         <section className="mb-8 mt-4 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-primary p-8 md:p-12 text-white shadow-xl border-b-4 border-secondary/30">
@@ -98,17 +114,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Smart Snow Day Warning - Only if chance > 50% */}
-          {15 > 50 && (
-            <div className="mt-6 p-4 bg-[#800000] text-white rounded-xl flex items-center gap-3 animate-in slide-in-from-left duration-500">
-              <CloudSnow className="w-5 h-5 animate-pulse" />
-              <div>
-                <p className="text-xs font-black uppercase tracking-widest">Snow Day Alert</p>
-                <p className="text-sm font-bold">Bus cancellations likely. Check back at 6:00 AM.</p>
-              </div>
-            </div>
-          )}
-
           <div className="mt-6 pt-6 border-t border-border">
             <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-3 flex items-center gap-2">
               <Users className="w-4 h-4" /> Lunch Meetings
@@ -143,7 +148,7 @@ export default function Home() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           <div className="md:col-span-2 space-y-10">
             {favoriteUpdates && favoriteUpdates.length > 0 && (
               <section className="animate-in">
@@ -236,6 +241,16 @@ export default function Home() {
           </aside>
         </div>
       </main>
+
+      {/* 4. App Update Notice Footer */}
+      <footer className="w-full bg-muted/50 border-t border-border py-4 px-6 mb-20 md:mb-0">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground flex items-center gap-2">
+            <Activity className="w-3 h-3 text-primary animate-pulse" />
+            📢 App Update Available: Please refresh or clear your cache to ensure you are seeing the latest schedules.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 }

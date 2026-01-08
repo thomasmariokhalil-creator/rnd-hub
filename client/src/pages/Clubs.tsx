@@ -2,7 +2,7 @@ import React from "react";
 import { MobileHeader } from "@/components/Header";
 import { SectionHeader } from "@/components/SectionHeader";
 import { useClubs } from "@/hooks/use-data";
-import { Mail, MapPin, Clock } from "lucide-react";
+import { Calendar, Clock, MapPin } from "lucide-react";
 
 export default function Clubs() {
   const { data: clubs, isLoading } = useClubs();
@@ -20,7 +20,6 @@ export default function Clubs() {
 
         {seasons.map((season) => {
           const seasonClubs = clubs?.filter(c => c.season === season) || [];
-          // If no clubs for season, we only hide it if it's not Fall (to keep the page from being empty)
           if (seasonClubs.length === 0 && season !== "Fall") return null;
 
           return (
@@ -30,53 +29,34 @@ export default function Clubs() {
                 {season} Season
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {seasonClubs.length > 0 ? seasonClubs.map((club, idx) => (
                   <div 
                     key={club.id} 
-                    className="bg-card rounded-2xl overflow-hidden border border-border/60 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex flex-col h-full animate-in"
+                    className="bg-card rounded-xl border border-border/60 p-4 shadow-sm hover:shadow-md transition-all duration-300 flex items-center gap-4 animate-in"
                     style={{ animationDelay: `${idx * 50}ms` }}
                   >
-                    <div className="aspect-[3/2] bg-muted relative">
-                      {club.imageUrl ? (
-                        <img src={club.imageUrl} alt={club.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-primary/5 text-primary/20 font-display font-bold text-4xl">
-                          RND
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                      <h3 className="absolute bottom-0 left-0 p-4 text-white font-display font-bold text-2xl drop-shadow-md">
-                        {club.name}
-                      </h3>
+                    <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                      <Users className="w-6 h-6 text-primary" />
                     </div>
                     
-                    <div className="p-5 flex flex-col flex-1">
-                      <p className="text-muted-foreground mb-6 line-clamp-3 text-sm leading-relaxed">
-                        {club.description}
-                      </p>
-                      
-                      <div className="mt-auto space-y-2.5">
-                        {club.meetingTime && (
-                          <div className="flex items-center gap-2.5 text-sm text-foreground/80 font-medium">
-                            <Clock className="w-4 h-4 text-primary" />
-                            <span>{club.meetingTime}</span>
-                          </div>
-                        )}
-                        {club.location && (
-                          <div className="flex items-center gap-2.5 text-sm text-foreground/80 font-medium">
-                            <MapPin className="w-4 h-4 text-primary" />
-                            <span>{club.location}</span>
-                          </div>
-                        )}
-                        {club.contactEmail && (
-                          <div className="pt-2 border-t border-border mt-3">
-                            <a href={`mailto:${club.contactEmail}`} className="flex items-center gap-2 text-sm text-primary font-bold hover:underline">
-                              <Mail className="w-4 h-4" />
-                              Contact Leader
-                            </a>
-                          </div>
-                        )}
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-bold text-lg text-foreground truncate">
+                        {club.name}
+                      </h3>
+                      <div className="grid grid-cols-1 gap-1 mt-1">
+                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-tight">
+                          <Calendar className="w-3 h-3" />
+                          <span className="truncate">Next: {club.meetingTime || "TBD"}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-tight">
+                          <Clock className="w-3 h-3" />
+                          <span>Time: {club.meetingTime?.split("at")[1]?.trim() || "Lunch"}</span>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[10px] text-muted-foreground font-bold uppercase tracking-tight">
+                          <MapPin className="w-3 h-3" />
+                          <span className="truncate">Room: {club.location || "TBD"}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -93,3 +73,6 @@ export default function Clubs() {
     </div>
   );
 }
+
+// Helper needed since Users icon wasn't imported in my logic head
+import { Users } from "lucide-react";

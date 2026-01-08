@@ -12,22 +12,16 @@ export default function About() {
 
         <Card>
           <CardHeader>
-            <CardTitle className="text-primary font-display">Our History</CardTitle>
+            <CardTitle className="text-primary font-display">Our History & Mission</CardTitle>
           </CardHeader>
           <CardContent className="prose prose-sm max-w-none text-foreground/80 leading-relaxed">
             <p>
-              Regiopolis-Notre Dame Catholic High School (RND) has a rich heritage in Kingston, Ontario. 
-              Founded through the merger of Regiopolis College (established in 1837) and Notre Dame Convent, 
-              RND continues to be a pillar of academic and spiritual excellence. 
-            </p>
-            <p>
-              Known for our strong community spirit, competitive athletics (Garnet & Gold), and dedication 
-              to the arts and social justice, RND fosters an environment where students can truly flourish.
+              Regiopolis-Notre Dame Catholic High School is a cornerstone of the Kingston community, with a rich history dating back to 1845. As the oldest English Catholic secondary school in Canada, RND is dedicated to academic excellence, spiritual growth, and the Garnet and Gold spirit. This Student Hub was developed by Thomas Khalil to empower students with the tools they need to navigate school life efficiently.
             </p>
             
             <div className="mt-10 pt-6 border-t border-border flex flex-col items-center">
               <p className="text-sm font-bold text-primary">Developer: Thomas Khalil</p>
-              <p className="text-xs text-muted-foreground mt-1">Version 2.0.0 (2026)</p>
+              <p className="text-xs text-muted-foreground mt-1">Version 2.1.0 (2026)</p>
             </div>
           </CardContent>
         </Card>

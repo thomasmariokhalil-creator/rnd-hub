@@ -16,10 +16,9 @@ import Dates from "./pages/Dates";
 import SnowDay from "./pages/SnowDay";
 import Pro from "./pages/Pro";
 import SchoolGuide from "./pages/SchoolGuide";
-
-// Stub components for missing pages to prevent runtime errors
-const About = () => <div className="p-20 text-center">About Page Coming Soon</div>;
-const MapPage = () => <div className="p-20 text-center">School Map Coming Soon</div>;
+import About from "./pages/About";
+import MapPage from "./pages/Map";
+import Calculator from "./pages/Calculator";
 
 function Router() {
   return (
@@ -34,7 +33,7 @@ function Router() {
       <Route path="/dates" component={Dates} />
       <Route path="/snow-day" component={SnowDay} />
       <Route path="/guide" component={SchoolGuide} />
-      <Route path="/pro" component={Pro} />
+      <Route path="/calculator" component={Calculator} />
       <Route path="/about" component={About} />
       <Route path="/map" component={MapPage} />
       <Route component={NotFound} />

@@ -3,7 +3,7 @@ import { MobileHeader } from "@/components/Header";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, School, GraduationCap, ArrowRight } from "lucide-react";
+import { BookOpen, School, GraduationCap, ArrowRight, Layers } from "lucide-react";
 
 export default function SchoolGuide() {
   const pathways = [
@@ -11,21 +11,21 @@ export default function SchoolGuide() {
       title: "De-streamed",
       level: "Grade 9",
       icon: School,
-      description: "Starting in 2022, all Grade 9 students take the same core courses (Math, Science, English) to keep all post-secondary options open.",
+      description: "All classes are De-streamed to provide a consistent foundation.",
       color: "border-primary/20 bg-primary/5"
     },
     {
-      title: "Academic",
-      level: "Grade 10-12",
+      title: "Academic / Applied / IB Prep",
+      level: "Grade 10",
       icon: BookOpen,
-      description: "Focuses on theory and abstract problems. Prepares students for University (U) and University/College (M) destination courses.",
+      description: "Students choose between Academic, Applied, or IB Prep (an unofficial taste of the International Baccalaureate program).",
       color: "border-blue-200 bg-blue-50"
     },
     {
-      title: "Applied",
-      level: "Grade 10",
-      icon: GraduationCap,
-      description: "Focuses on practical applications and concrete examples. Prepares students for College (C) destination courses.",
+      title: "U / C / E / M Pathways",
+      level: "Grade 11 & 12",
+      icon: Layers,
+      description: "Students choose pathways: University (U), College (C), Workplace (E), or Mixed (M). (Note: Mixed courses may not meet specific admission requirements for some university programs).",
       color: "border-orange-200 bg-orange-50"
     }
   ];

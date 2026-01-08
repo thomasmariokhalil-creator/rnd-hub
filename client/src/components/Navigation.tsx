@@ -23,7 +23,7 @@ const OTHER_ITEMS = [
   { href: "/dates", label: "Dates", icon: Calendar },
   { href: "/snow-day", label: "Snow Day Predictor", icon: CloudSnow },
   { href: "/guide", label: "School Guide", icon: BookOpen },
-  { href: "/pro", label: "Pro Features", icon: ShieldCheck },
+  { href: "/calculator", label: "Average Calculator", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
   { href: "/map", label: "School Map", icon: MapIcon },
 ];
