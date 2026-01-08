@@ -45,17 +45,19 @@ export default function Home() {
 
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
-      {/* Smart Snow Day Warning - Garnet-colored banner at the VERY top */}
+      {/* Smart Snow Day Warning - Garnet-colored banner above Live Today */}
       {snowDayProbability > 50 && (
-        <div className="bg-[#800000] text-white py-3 px-4 text-center sticky top-0 z-[100] shadow-md border-b border-white/10">
-          <Link href="/snow-day" className="flex items-center justify-center gap-2 font-bold text-sm md:text-base hover:underline underline-offset-4">
-            <AlertTriangle className="w-5 h-5 text-[#FFD700]" />
-            <span>⚠️ Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
-          </Link>
+        <div className="max-w-4xl mx-auto px-4 md:px-6 mt-4">
+          <div className="bg-[#800000] text-white py-4 px-6 rounded-2xl shadow-lg border border-white/10 animate-in slide-in-from-top duration-500">
+            <Link href="/snow-day" className="flex items-center gap-3 font-bold hover:underline underline-offset-4">
+              <div className="p-2 bg-white/10 rounded-lg">
+                <CloudSnow className="w-6 h-6 text-[#FFD700] animate-pulse" />
+              </div>
+              <span className="text-sm md:text-base">Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
+            </Link>
+          </div>
         </div>
       )}
-
-      <MobileHeader />
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6 flex-1">
 
@@ -78,7 +80,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="p-3 bg-primary/10 rounded-xl">
-                <Activity className="w-6 h-6 text-primary" />
+                <Clock className="w-6 h-6 text-primary" />
               </div>
               <div>
                 <h2 className="font-display font-bold text-xl text-primary">Live Today</h2>

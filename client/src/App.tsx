@@ -35,7 +35,6 @@ function Router() {
       <Route path="/guide" component={SchoolGuide} />
       <Route path="/calculator" component={Calculator} />
       <Route path="/about" component={About} />
-      <Route path="/map" component={MapPage} />
       <Route component={NotFound} />
     </Switch>
   );

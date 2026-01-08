@@ -25,7 +25,6 @@ const OTHER_ITEMS = [
   { href: "/guide", label: "School Guide", icon: BookOpen },
   { href: "/calculator", label: "Average Calculator", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
-  { href: "/map", label: "School Map", icon: MapIcon },
 ];
 
 export function Navigation() {
