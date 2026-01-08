@@ -15,15 +15,16 @@ import Events from "@/pages/Events";
 import Dates from "./pages/Dates";
 import SnowDay from "./pages/SnowDay";
 import Pro from "./pages/Pro";
-import About from "./pages/About";
-import MapPage from "./pages/Map";
+import SchoolGuide from "./pages/SchoolGuide";
+
+// Stub components for missing pages to prevent runtime errors
+const About = () => <div className="p-20 text-center">About Page Coming Soon</div>;
+const MapPage = () => <div className="p-20 text-center">School Map Coming Soon</div>;
 
 function Router() {
   return (
     <Switch>
-      {/* Exact match for the main URL */}
       <Route path="/" component={Home} />
-
       <Route path="/news" component={News} />
       <Route path="/news/:id" component={News} />
       <Route path="/menu" component={Menu} />
@@ -32,12 +33,11 @@ function Router() {
       <Route path="/events" component={Events} />
       <Route path="/dates" component={Dates} />
       <Route path="/snow-day" component={SnowDay} />
+      <Route path="/guide" component={SchoolGuide} />
       <Route path="/pro" component={Pro} />
       <Route path="/about" component={About} />
       <Route path="/map" component={MapPage} />
-
-      {/* Fallback: If the path is unknown or empty during wake-up, show Home */}
-      <Route path="/:rest*" component={Home} />
+      <Route component={NotFound} />
     </Switch>
   );
 }
