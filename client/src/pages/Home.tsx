@@ -41,7 +41,7 @@ export default function Home() {
     .slice(0, 4);
 
   // Example probability - in a real app this would come from an API
-  const snowDayProbability = 55;
+  let snowDayProbability = 15;
 
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
@@ -64,18 +64,16 @@ export default function Home() {
         </section>
 
         {/* Smart Snow Day Warning - Garnet-colored banner above Live Today */}
-        {snowDayProbability > 50 && (
-          <div className="mb-6">
-            <div className="bg-[#800000] text-white py-4 px-6 rounded-2xl shadow-lg border border-white/10 animate-in slide-in-from-top duration-500">
-              <Link href="/snow-day" className="flex items-center gap-3 font-bold hover:underline underline-offset-4">
-                <div className="p-2 bg-white/10 rounded-lg">
-                  <CloudSnow className="w-6 h-6 text-[#FFD700] animate-pulse" />
-                </div>
-                <span className="text-sm md:text-base">Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
-              </Link>
-            </div>
+        <div id="snow-day-banner" style={{ display: snowDayProbability > 50 ? 'block' : 'none' }} className="mb-6">
+          <div className="bg-[#800000] text-white py-4 px-6 rounded-2xl shadow-lg border border-white/10 animate-in slide-in-from-top duration-500">
+            <Link href="/snow-day" className="flex items-center gap-3 font-bold hover:underline underline-offset-4">
+              <div className="p-2 bg-white/10 rounded-lg">
+                <CloudSnow className="w-6 h-6 text-[#FFD700] animate-pulse" />
+              </div>
+              <span className="text-sm md:text-base">⚠️ Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
+            </Link>
           </div>
-        )}
+        </div>
 
         {/* Live Today Banner */}
         <section className="mb-10 bg-card border border-border rounded-2xl p-6 shadow-sm animate-in zoom-in-95 duration-500">
