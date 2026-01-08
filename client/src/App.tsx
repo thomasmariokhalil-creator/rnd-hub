@@ -16,14 +16,18 @@ import Events from "@/pages/Events";
 function Router() {
   return (
     <Switch>
+      {/* Exact match for the main URL */}
       <Route path="/" component={Home} />
+
       <Route path="/news" component={News} />
       <Route path="/news/:id" component={News} />
       <Route path="/menu" component={Menu} />
       <Route path="/clubs" component={Clubs} />
       <Route path="/sports" component={Sports} />
       <Route path="/events" component={Events} />
-      <Route component={NotFound} />
+
+      {/* Fallback: If the path is unknown or empty during wake-up, show Home */}
+      <Route path="/:rest*" component={Home} />
     </Switch>
   );
 }

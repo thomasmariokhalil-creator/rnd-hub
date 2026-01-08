@@ -51,3 +51,13 @@
     font-family: var(--font-display);
   }
 }
+/* Targeted Sledgehammer Fix for Toasts */
+[role="region"],
+[class*="Toast"],
+.fixed.top-0.z-\[100\],
+div.fixed.top-0.z-\[100\] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
