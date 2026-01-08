@@ -43,9 +43,6 @@ export default function Home() {
   // Example probability - in a real app this would come from an API
   const snowDayProbability = 55;
 
-  // Example probability - in a real app this would come from an API
-  const snowDayProbability = 55;
-
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
       {/* Smart Snow Day Warning - Garnet-colored banner at the VERY top */}
