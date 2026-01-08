@@ -3,7 +3,7 @@ import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
 import { format } from "date-fns";
-import { Utensils, Calendar, Star, Activity, Shirt, Users } from "lucide-react";
+import { Utensils, Calendar, Star, Activity, Shirt, Users, CloudSnow } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -97,6 +97,17 @@ export default function Home() {
               </div>
             </div>
           </div>
+
+          {/* Smart Snow Day Warning - Only if chance > 50% */}
+          {15 > 50 && (
+            <div className="mt-6 p-4 bg-[#800000] text-white rounded-xl flex items-center gap-3 animate-in slide-in-from-left duration-500">
+              <CloudSnow className="w-5 h-5 animate-pulse" />
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest">Snow Day Alert</p>
+                <p className="text-sm font-bold">Bus cancellations likely. Check back at 6:00 AM.</p>
+              </div>
+            </div>
+          )}
 
           <div className="mt-6 pt-6 border-t border-border">
             <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-3 flex items-center gap-2">
