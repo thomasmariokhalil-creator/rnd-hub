@@ -3,7 +3,7 @@ import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
 import { format } from "date-fns";
-import { Utensils, Calendar, Star, Activity, Shirt, Users, CloudSnow, AlertTriangle } from "lucide-react";
+import { Utensils, Calendar, Star, Activity, Shirt, Users, CloudSnow, AlertTriangle, Clock } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -45,19 +45,7 @@ export default function Home() {
 
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
-      {/* Smart Snow Day Warning - Garnet-colored banner above Live Today */}
-      {snowDayProbability > 50 && (
-        <div className="max-w-4xl mx-auto px-4 md:px-6 mt-4">
-          <div className="bg-[#800000] text-white py-4 px-6 rounded-2xl shadow-lg border border-white/10 animate-in slide-in-from-top duration-500">
-            <Link href="/snow-day" className="flex items-center gap-3 font-bold hover:underline underline-offset-4">
-              <div className="p-2 bg-white/10 rounded-lg">
-                <CloudSnow className="w-6 h-6 text-[#FFD700] animate-pulse" />
-              </div>
-              <span className="text-sm md:text-base">Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
-            </Link>
-          </div>
-        </div>
-      )}
+      <MobileHeader />
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6 flex-1">
 
@@ -74,6 +62,20 @@ export default function Home() {
             <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 -skew-x-12 translate-x-1/2"></div>
           </div>
         </section>
+
+        {/* Smart Snow Day Warning - Garnet-colored banner above Live Today */}
+        {snowDayProbability > 50 && (
+          <div className="mb-6">
+            <div className="bg-[#800000] text-white py-4 px-6 rounded-2xl shadow-lg border border-white/10 animate-in slide-in-from-top duration-500">
+              <Link href="/snow-day" className="flex items-center gap-3 font-bold hover:underline underline-offset-4">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <CloudSnow className="w-6 h-6 text-[#FFD700] animate-pulse" />
+                </div>
+                <span className="text-sm md:text-base">Possible Snow Day Tomorrow. Check the Snow Day Predictor for details.</span>
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Live Today Banner */}
         <section className="mb-10 bg-card border border-border rounded-2xl p-6 shadow-sm animate-in zoom-in-95 duration-500">
@@ -241,7 +243,6 @@ export default function Home() {
         </div>
       </main>
 
-      {/* 4. App Update Notice Footer */}
       <footer className="w-full bg-muted/50 border-t border-border py-4 px-6 mb-20 md:mb-0">
         <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
           <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground flex items-center gap-2">
