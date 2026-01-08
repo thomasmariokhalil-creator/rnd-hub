@@ -3,7 +3,7 @@ import { MobileHeader } from "@/components/Header";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, AlertTriangle, Info } from "lucide-react";
+import { CheckCircle2, Info, Gauge } from "lucide-react";
 
 export default function SnowDay() {
   const percentage = 15; // Placeholder
@@ -16,44 +16,48 @@ export default function SnowDay() {
         <SectionHeader title="Snow Day Predictor" description="Prediction for Kingston, ON." />
 
         <Card className="max-w-md mx-auto overflow-hidden">
-          <CardHeader className="bg-primary/5 text-center pb-8">
+          <CardHeader className="bg-primary/5 text-center pb-8 border-b border-primary/10">
             <CardTitle className="text-3xl font-display font-bold text-[#800000]">Snow Day Predictor</CardTitle>
-            <p className="text-muted-foreground">Kingston, ON</p>
+            <p className="text-muted-foreground font-medium uppercase tracking-widest text-xs mt-1">Kingston, ON</p>
           </CardHeader>
-          <CardContent className="flex flex-col items-center -mt-6">
-            <div className="relative w-48 h-48 flex items-center justify-center bg-white rounded-full shadow-xl border-8 border-primary/10">
+          <CardContent className="flex flex-col items-center py-10">
+            <div className="relative w-48 h-48 flex items-center justify-center bg-white rounded-full shadow-2xl border-8 border-primary/5">
               <div className="text-center">
-                <span className="text-5xl font-bold text-primary">{percentage}%</span>
-                <p className="text-xs text-muted-foreground font-medium mt-1 uppercase tracking-widest">Chance</p>
+                <Gauge className="w-8 h-8 text-primary/20 mx-auto mb-1" />
+                <span className="text-5xl font-black text-primary">{percentage}%</span>
+                <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-[0.2em]">Chance</p>
               </div>
             </div>
             
             <div className="mt-8">
               <Badge 
                 className={
-                  status === "Not Likely" ? "bg-red-600 text-white hover:bg-red-700 px-6 py-1.5 text-base" :
-                  status === "Moderate" ? "bg-yellow-500 text-white hover:bg-yellow-600 px-6 py-1.5 text-base" :
-                  "bg-white border-2 border-primary text-primary px-6 py-1.5 text-base"
+                  status === "Not Likely" ? "bg-red-600 text-white hover:bg-red-700 px-8 py-2 text-base font-bold rounded-full shadow-lg" :
+                  status === "Moderate" ? "bg-yellow-500 text-white hover:bg-yellow-600 px-8 py-2 text-base font-bold rounded-full shadow-lg" :
+                  "bg-[#800000] text-white px-8 py-2 text-base font-bold rounded-full shadow-lg"
                 }
               >
                 {status}
               </Badge>
             </div>
 
-            <div className="w-full mt-10 space-y-4 border-t pt-6">
+            <div className="w-full mt-12 space-y-4 bg-muted/30 p-6 rounded-2xl border border-border">
+              <h4 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Data Sources</h4>
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                <p className="text-sm text-foreground/80">Aggregates real-time weather data from Environment Canada.</p>
+                <p className="text-sm font-medium text-foreground/80 leading-tight">Environment Canada Weather Data</p>
               </div>
               <div className="flex items-start gap-3">
                 <CheckCircle2 className="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                <p className="text-sm text-foreground/80">Analyzes historical Tri-Board cancellation patterns for predictive modeling.</p>
+                <p className="text-sm font-medium text-foreground/80 leading-tight">Tri-Board Historical Cancellation Patterns</p>
               </div>
             </div>
 
-            <footer className="w-full mt-8 flex items-center gap-2 text-[10px] text-muted-foreground text-center justify-center italic">
-              <Info className="w-3 h-3" />
-              For informational purposes only. Predictions are not guarantees. Always check official Tri-Board communications.
+            <footer className="w-full mt-8 flex items-start gap-3 p-4 bg-primary/5 rounded-xl border border-primary/10">
+              <Info className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <p className="text-[10px] text-muted-foreground font-medium leading-relaxed uppercase tracking-tight">
+                For informational purposes only. Predictions are not guarantees. Always check official Tri-Board communications for final decisions.
+              </p>
             </footer>
           </CardContent>
         </Card>

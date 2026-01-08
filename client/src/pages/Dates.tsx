@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MobileHeader } from "@/components/Header";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -42,11 +42,64 @@ const EXAMS = [
 ];
 
 export default function Dates() {
+  const [timeLeft, setTimeLeft] = useState<{ days: number; hours: number; minutes: number; seconds: number }>({
+    days: 0, hours: 0, minutes: 0, seconds: 0
+  });
+
+  useEffect(() => {
+    const targetDate = new Date("2026-06-25T15:00:00").getTime();
+    
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+      
+      if (distance < 0) {
+        clearInterval(interval);
+        return;
+      }
+      
+      setTimeLeft({
+        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+        seconds: Math.floor((distance % (1000 * 60)) / 1000),
+      });
+    }, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="pb-24 md:pb-10">
       <MobileHeader title="School Dates" />
       <main className="md:pt-28 max-w-4xl mx-auto px-4 md:px-6">
         <SectionHeader title="Dates & Schedules" description="Daily schedule, holidays, and important dates." />
+
+        <section className="mb-10 bg-primary rounded-2xl p-6 text-white shadow-lg text-center overflow-hidden relative">
+          <div className="relative z-10">
+            <h2 className="font-display font-bold text-lg uppercase tracking-widest mb-4 opacity-80">Last Day of School</h2>
+            <div className="grid grid-cols-4 gap-4 max-w-sm mx-auto">
+              <div className="flex flex-col">
+                <span className="text-3xl md:text-4xl font-black">{timeLeft.days}</span>
+                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-60">Days</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl md:text-4xl font-black">{timeLeft.hours}</span>
+                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-60">Hours</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl md:text-4xl font-black">{timeLeft.minutes}</span>
+                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-60">Min</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="text-3xl md:text-4xl font-black">{timeLeft.seconds}</span>
+                <span className="text-[10px] font-bold uppercase tracking-tighter opacity-60">Sec</span>
+              </div>
+            </div>
+            <p className="mt-4 text-[10px] font-bold uppercase tracking-widest opacity-40">June 25, 2026</p>
+          </div>
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+        </section>
 
         <Tabs defaultValue="schedule" className="space-y-6">
           <TabsList className="grid w-full grid-cols-3">

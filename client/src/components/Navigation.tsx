@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "wouter";
-import { Home, Newspaper, Utensils, Users, Trophy, MoreHorizontal, Calendar, CloudSnow, ShieldCheck, Info, Map as MapIcon } from "lucide-react";
+import { Home, Newspaper, Utensils, Users, Trophy, MoreHorizontal, Calendar, CloudSnow, ShieldCheck, Info, Map as MapIcon, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   DropdownMenu,
@@ -22,6 +22,7 @@ const NAV_ITEMS = [
 const OTHER_ITEMS = [
   { href: "/dates", label: "Dates", icon: Calendar },
   { href: "/snow-day", label: "Snow Day Predictor", icon: CloudSnow },
+  { href: "/guide", label: "School Guide", icon: BookOpen },
   { href: "/pro", label: "Pro Features", icon: ShieldCheck },
   { href: "/about", label: "About", icon: Info },
   { href: "/map", label: "School Map", icon: MapIcon },

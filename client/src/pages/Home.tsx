@@ -1,31 +1,36 @@
-import { useAnnouncements, useMenu, useFeatured, useSports } from "@/hooks/use-data";
+import { useAnnouncements, useMenu, useFeatured, useSports, useClubs } from "@/hooks/use-data";
 import { FeaturedCarousel } from "@/components/FeaturedCarousel";
 import { SectionHeader } from "@/components/SectionHeader";
 import { MobileHeader } from "@/components/Header";
 import { format } from "date-fns";
-import { Utensils, Calendar, Star, Activity } from "lucide-react";
+import { Utensils, Calendar, Star, Activity, Shirt, Users } from "lucide-react";
 import { Link } from "wouter";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
   const { data: menuItems, isLoading: menuLoading } = useMenu();
   const { data: featured, isLoading: featuredLoading } = useFeatured();
   const { data: sports, isLoading: sportsLoading } = useSports();
+  const { data: clubs, isLoading: clubsLoading } = useClubs();
 
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [dressCode, setDressCode] = useState<"Full Uniform" | "Spirit Theme">("Full Uniform");
 
   useEffect(() => {
     const saved = localStorage.getItem("favoriteSports");
     if (saved) setFavorites(JSON.parse(saved));
   }, []);
 
-  const todayMenu = menuItems?.find(item => item.date === new Date().toISOString().split('T')[0]);
+  const todayStr = format(new Date(), 'yyyy-MM-dd');
+  const todayMenu = menuItems?.find(item => item.date === todayStr);
   const latestNews = announcements?.slice(0, 3);
+  const todayClubs = clubs?.filter(c => c.meetingTime?.toLowerCase().includes("today") || c.meetingTime?.toLowerCase().includes(format(new Date(), 'EEEE').toLowerCase()));
 
-  // 1. FILTER: This removes any item titled "Welcome" from the spotlight database
   const filteredFeatured = featured?.filter(item => 
     !item.title.toLowerCase().includes("welcome") && 
     !item.title.toLowerCase().includes("student hub")
@@ -41,7 +46,6 @@ export default function Home() {
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6">
 
-        {/* 2. HERO: Fixed to be Text-Only (Logo image removed as requested) */}
         <section className="mb-8 mt-4 animate-in fade-in slide-in-from-top-4 duration-700">
           <div className="relative overflow-hidden rounded-[2.5rem] bg-primary p-8 md:p-12 text-white shadow-xl border-b-4 border-secondary/30">
             <div className="relative z-10 text-center md:text-left">
@@ -52,12 +56,75 @@ export default function Home() {
                 Official connection for Regiopolis-Notre Dame students.
               </p>
             </div>
-            {/* Background pattern for texture */}
             <div className="absolute top-0 right-0 w-1/2 h-full bg-white/5 -skew-x-12 translate-x-1/2"></div>
           </div>
         </section>
 
-        {/* 3. CAROUSEL: Now uses the "filteredFeatured" list to prevent double welcome */}
+        {/* Live Today Banner */}
+        <section className="mb-10 bg-card border border-border rounded-2xl p-6 shadow-sm animate-in zoom-in-95 duration-500">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-primary/10 rounded-xl">
+                <Activity className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h2 className="font-display font-bold text-xl text-primary">Live Today</h2>
+                <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">
+                  {format(new Date(), 'EEEE, MMMM do')}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <div 
+                className="flex items-center gap-2 cursor-pointer group"
+                onClick={() => setDressCode(prev => prev === "Full Uniform" ? "Spirit Theme" : "Full Uniform")}
+              >
+                <Badge 
+                  className={cn(
+                    "px-4 py-1.5 text-xs font-bold uppercase tracking-widest transition-all",
+                    dressCode === "Full Uniform" 
+                      ? "bg-[#800000] text-white hover:bg-[#600000]" 
+                      : "bg-blue-600 text-white hover:bg-blue-700"
+                  )}
+                >
+                  <Shirt className="w-3 h-3 mr-2" />
+                  {dressCode}
+                </Badge>
+                <span className="text-[10px] text-muted-foreground font-medium italic opacity-0 group-hover:opacity-100 transition-opacity">
+                  Check Student Council announcements.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-6 border-t border-border">
+            <h3 className="text-xs font-bold text-primary uppercase tracking-widest mb-3 flex items-center gap-2">
+              <Users className="w-4 h-4" /> Lunch Meetings
+            </h3>
+            {clubsLoading ? (
+              <Skeleton className="h-4 w-full" />
+            ) : todayClubs && todayClubs.length > 0 ? (
+              <div className="relative overflow-hidden h-6 bg-primary/5 rounded-lg">
+                <div className="absolute whitespace-nowrap animate-marquee flex items-center gap-8 px-4 h-full">
+                  {todayClubs.map(club => (
+                    <span key={club.id} className="text-sm font-bold text-primary">
+                      • {club.name} ({club.location || "TBD"})
+                    </span>
+                  ))}
+                  {todayClubs.map(club => (
+                    <span key={`${club.id}-dup`} className="text-sm font-bold text-primary">
+                      • {club.name} ({club.location || "TBD"})
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">No meetings scheduled for today.</p>
+            )}
+          </div>
+        </section>
+
         {!featuredLoading && filteredFeatured && filteredFeatured.length > 0 && (
           <div className="mb-10">
             <SectionHeader title="Spotlight" description="Featured highlights" />
@@ -67,7 +134,6 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="md:col-span-2 space-y-10">
-            {/* Team Updates */}
             {favoriteUpdates && favoriteUpdates.length > 0 && (
               <section className="animate-in">
                 <div className="flex items-center justify-between mb-4">
@@ -97,7 +163,6 @@ export default function Home() {
               </section>
             )}
 
-            {/* News Section */}
             <section>
               <SectionHeader title="Daily Announcements" description="Stay in the loop" />
               <div className="grid gap-4 mt-4">
@@ -118,7 +183,6 @@ export default function Home() {
             </section>
           </div>
 
-          {/* Sidebar */}
           <aside className="space-y-8">
             <section className="bg-primary rounded-[2rem] p-6 text-white shadow-xl relative overflow-hidden group">
               <div className="relative z-10">
@@ -151,7 +215,7 @@ export default function Home() {
                 <Calendar className="w-5 h-5 text-secondary" /> Quick Links
               </h3>
               <div className="space-y-3">
-                <Link href="/events">
+                <Link href="/dates">
                   <Button variant="outline" className="w-full justify-start text-xs font-bold uppercase tracking-widest">
                     School Calendar
                   </Button>

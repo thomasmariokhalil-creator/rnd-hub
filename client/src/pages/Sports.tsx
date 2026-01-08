@@ -134,8 +134,21 @@ export default function Sports() {
               const Icon = SEASON_ICONS[season] || Info;
               const isInSeason = season === currentSeason || season === "Year-Round";
 
+              let borderColor = "border-border";
+              let tintColor = "";
+              if (season === "Fall") {
+                borderColor = "border-orange-500/50";
+                tintColor = "bg-orange-500/5";
+              } else if (season === "Winter") {
+                borderColor = "border-blue-400/50";
+                tintColor = "bg-blue-400/5";
+              } else if (season === "Spring") {
+                borderColor = "border-green-500/50";
+                tintColor = "bg-green-500/5";
+              }
+
               return (
-                <section key={season} className="space-y-6">
+                <section key={season} className={cn("space-y-6 p-6 rounded-[2rem] border-2", borderColor, tintColor)}>
                   <h3 className="font-display font-bold text-2xl flex items-center justify-between text-primary">
                     <div className="flex items-center gap-2">
                       <Icon className="w-6 h-6 text-secondary" />
