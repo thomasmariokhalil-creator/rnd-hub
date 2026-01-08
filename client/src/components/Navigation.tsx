@@ -1,8 +1,14 @@
+import React from "react";
 import { Link, useLocation } from "wouter";
-import { Home, Newspaper, Utensils, Users, Trophy, Calendar } from "lucide-react";
+import { Home, Newspaper, Utensils, Users, Trophy, MoreHorizontal, Calendar, CloudSnow, ShieldCheck, Info, Map as MapIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// Since it's in the public folder, this is the correct path
 const logoImage = "/school_logo.png";
 
 const NAV_ITEMS = [
@@ -11,7 +17,14 @@ const NAV_ITEMS = [
   { href: "/menu", label: "Food", icon: Utensils },
   { href: "/clubs", label: "Clubs", icon: Users },
   { href: "/sports", label: "Sports", icon: Trophy },
-  { href: "/events", label: "Dates", icon: Calendar },
+];
+
+const OTHER_ITEMS = [
+  { href: "/dates", label: "Dates", icon: Calendar },
+  { href: "/snow-day", label: "Snow Day Predictor", icon: CloudSnow },
+  { href: "/pro", label: "Pro Features", icon: ShieldCheck },
+  { href: "/about", label: "About", icon: Info },
+  { href: "/map", label: "School Map", icon: MapIcon },
 ];
 
 export function Navigation() {
@@ -19,12 +32,10 @@ export function Navigation() {
 
   return (
     <>
-      {/* Mobile Bottom Navigation - Stays hidden on desktop */}
       <nav className="fixed bottom-0 left-0 right-0 bg-background border-t border-border/50 z-50 md:hidden pb-safe">
         <div className="flex justify-around items-center h-16 px-2">
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
             const isActive = location === href || (location === "" && href === "/");
-
             return (
               <Link key={href} href={href}>
                 <div className={cn(
@@ -37,10 +48,28 @@ export function Navigation() {
               </Link>
             );
           })}
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="flex flex-col items-center justify-center w-full h-full px-1 py-1 space-y-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+                <MoreHorizontal className="w-5 h-5" />
+                <span className="text-[10px] font-medium leading-none">Other</span>
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56 mb-2">
+              {OTHER_ITEMS.map((item) => (
+                <DropdownMenuItem key={item.href} asChild>
+                  <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </nav>
 
-      {/* Desktop Top Navigation - Strictly hidden on mobile to stop "Two Layers" */}
       <header className="hidden md:block fixed top-0 left-0 right-0 bg-primary text-primary-foreground z-50 shadow-lg">
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link href="/">
@@ -50,7 +79,6 @@ export function Navigation() {
                 alt="RND Hub Logo" 
                 className="w-10 h-10 rounded-lg shadow-md object-contain bg-white p-0.5 group-hover:scale-105 transition-transform" 
                 onError={(e) => {
-                  // If /school_logo.png fails, it hides the image instead of looking for old folders
                   (e.target as HTMLImageElement).style.display = 'none';
                 }}
               />
@@ -78,6 +106,25 @@ export function Navigation() {
                 </Link>
               );
             })}
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <div className="flex items-center gap-2 px-4 py-2 rounded-full transition-all cursor-pointer font-medium text-sm text-primary-foreground/90 hover:bg-primary-foreground/10">
+                  <MoreHorizontal className="w-4 h-4" />
+                  <span>Other</span>
+                </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 mt-2">
+                {OTHER_ITEMS.map((item) => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </nav>
         </div>
       </header>
