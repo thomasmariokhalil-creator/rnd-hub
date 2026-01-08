@@ -57,7 +57,7 @@ export class DatabaseStorage implements IStorage {
 
   // Clubs
   async getClubs(): Promise<Club[]> {
-    return await db.select().from(clubs);
+    return await db.select().from(clubs).orderBy(clubs.season, clubs.name);
   }
   async createClub(item: InsertClub): Promise<Club> {
     const [result] = await db.insert(clubs).values(item).returning();

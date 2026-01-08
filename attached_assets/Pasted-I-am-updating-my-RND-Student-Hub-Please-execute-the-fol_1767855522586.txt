@@ -1,0 +1,43 @@
+I am updating my RND Student Hub. Please execute the following updates in one pass. CRITICAL: Do not change the <title> tag or the main CSS IDs, as my external app (Kodular) relies on them to function. This must remain a clean HTML/CSS/JS project compatible with Render.
+
+1. Navigation & 'Other' Menu:
+
+Remove the existing 'Dates' section.
+
+Create a new 'Other' button that opens a clean dropdown or overlay menu.
+
+Menu options: Dates, Snow Day Predictor, Pro Features, About, and School Map.
+
+2. The 'Dates' Section (Inside Other):
+
+Daily Schedule: Create a clean table for Period 1 (8:30-9:45), Period 2 (9:50-11:05), Lunch (11:05-11:50), Period 3 (11:55-1:10), and Period 4 (1:15-2:30).
+
+Calendar: Group into 'Holidays' and 'PA Days' for 2025-2026. Include all ALCDSB dates provided (First day: Sept 3, Christmas: Dec 22-Jan 2, etc.).
+
+Exams: Add a specific sub-section for January Exams (Jan 22-27).
+
+3. Snow Day Predictor (Inside Other):
+
+UI: Title: 'Snow Day Predictor' (Garnet color). Subtitle: 'Kingston, ON'.
+
+Visuals: A large percentage display with a gauge icon. Below it, a status badge: 'Not Likely' (Red/White), 'Moderate' (Yellow/White), or 'Highly Likely' (White/White).
+
+Proof/Sources: Add two bullet points with checkmarks:
+
+'Aggregates real-time weather data from Environment Canada.'
+
+'Analyzes historical Tri-Board cancellation patterns for predictive modeling.'
+
+Legal Disclaimer: Add a small footer: 'For informational purposes only. Predictions are not guarantees. Always check official Tri-Board communications.'
+
+4. Pro Features & About (Inside Other):
+
+Pro: List 'No Ads' (with a blocked icon) and 'Offline Mode' (with a cloud-off icon). Note: Implement Offline Mode using a basic Service Worker placeholder.
+
+About: Include a brief summary of Regiopolis-Notre Dame CHS history. Add the credit: 'Developer: Thomas Khalil'.
+
+5. Clubs Section (Main Page):
+
+Organize sports clubs strictly by season: Fall, Winter, and Spring. Use a grid of cards for each.
+
+Please ensure the UI stays responsive and the Garnet/Gold school theme is applied to all new elements."

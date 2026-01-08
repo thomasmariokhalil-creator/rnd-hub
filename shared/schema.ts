@@ -34,6 +34,7 @@ export const clubs = pgTable("clubs", {
   location: text("location"),
   contactEmail: text("contact_email"),
   imageUrl: text("image_url"),
+  season: text("season").default("Fall").notNull(), // 'Fall', 'Winter', 'Spring'
 });
 
 // 4. Sports Updates
