@@ -8,23 +8,24 @@ import { Calculator, Plus, Trash2, GraduationCap } from "lucide-react";
 
 interface Assignment {
   id: string;
+  name: string;
   marks: string; // Comma-separated marks
   weight: number | "";
 }
 
 export default function CalculatorPage() {
   const [assignments, setAssignments] = useState<Assignment[]>(() => {
-    const saved = localStorage.getItem("calc_assignments_v2");
-    return saved ? JSON.parse(saved) : [{ id: "1", marks: "", weight: "" }];
+    const saved = localStorage.getItem("calc_assignments_v3");
+    return saved ? JSON.parse(saved) : [{ id: "1", name: "", marks: "", weight: "" }];
   });
 
   const saveAssignments = (newAssignments: Assignment[]) => {
     setAssignments(newAssignments);
-    localStorage.setItem("calc_assignments_v2", JSON.stringify(newAssignments));
+    localStorage.setItem("calc_assignments_v3", JSON.stringify(newAssignments));
   };
 
   const addAssignment = () => {
-    saveAssignments([...assignments, { id: Date.now().toString(), marks: "", weight: "" }]);
+    saveAssignments([...assignments, { id: Date.now().toString(), name: "", marks: "", weight: "" }]);
   };
 
   const removeAssignment = (id: string) => {
@@ -47,31 +48,18 @@ export default function CalculatorPage() {
   };
 
   const calculateAverage = () => {
-    const validAssignments = assignments.filter(a => a.marks.trim() !== "" && typeof a.weight === "number");
-    
-    const grouped = validAssignments.reduce((acc, a) => {
-      const weightStr = a.weight.toString();
-      const marksList = a.marks.split(",").map(m => parseFloat(m.trim())).filter(m => !isNaN(m));
-      
-      if (marksList.length > 0) {
-        if (!acc[weightStr]) acc[weightStr] = [];
-        // Average the marks in this category first
-        const categoryAvg = marksList.reduce((sum, m) => sum + m, 0) / marksList.length;
-        acc[weightStr].push(categoryAvg);
-      }
-      return acc;
-    }, {} as Record<string, number[]>);
-
     let totalWeightedScore = 0;
     let totalWeight = 0;
 
-    Object.entries(grouped).forEach(([weightStr, categoryAverages]) => {
-      const weight = parseFloat(weightStr);
-      // If multiple assignments have same weight, we average their averages (or just average all marks with that weight)
-      // The instruction says "calculate the average of those grades first, then apply the weight percentage"
-      const weightAvg = categoryAverages.reduce((sum, avg) => sum + avg, 0) / categoryAverages.length;
-      totalWeightedScore += (weightAvg * weight);
-      totalWeight += weight;
+    assignments.forEach(a => {
+      if (a.marks.trim() !== "" && typeof a.weight === "number" && a.weight > 0) {
+        const marksList = a.marks.split(",").map(m => parseFloat(m.trim())).filter(m => !isNaN(m));
+        if (marksList.length > 0) {
+          const subAverage = marksList.reduce((sum, m) => sum + m, 0) / marksList.length;
+          totalWeightedScore += (subAverage * a.weight);
+          totalWeight += a.weight;
+        }
+      }
     });
 
     return totalWeight > 0 ? (totalWeightedScore / totalWeight).toFixed(2) : "0.00";
@@ -100,8 +88,9 @@ export default function CalculatorPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">
-            <div className="grid grid-cols-[1fr_100px_40px] gap-4 px-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Marks (e.g. 80, 90)</span>
+            <div className="grid grid-cols-[1fr_2fr_100px_40px] gap-4 px-2">
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Category/Task</span>
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Grades (e.g. 80, 90)</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Weight (%)</span>
             </div>
 
@@ -109,10 +98,17 @@ export default function CalculatorPage() {
               <div key={a.id} className="flex items-center gap-3 animate-in fade-in slide-in-from-left duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                 <Input
                   type="text"
+                  placeholder="Assignment name"
+                  value={a.name}
+                  onChange={(e) => updateAssignment(a.id, "name", e.target.value)}
+                  className="rounded-xl font-bold flex-1"
+                />
+                <Input
+                  type="text"
                   placeholder="e.g. 85, 90, 75"
                   value={a.marks}
                   onChange={(e) => updateAssignment(a.id, "marks", e.target.value)}
-                  className="rounded-xl font-bold flex-1"
+                  className="rounded-xl font-bold flex-[2]"
                 />
                 <Input
                   type="number"
