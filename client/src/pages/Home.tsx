@@ -38,6 +38,14 @@ export default function Home() {
     window.location.reload();
   };
 
+  const handleFavoriteToggle = (sportName: string) => {
+    const newFavorites = favorites.includes(sportName)
+      ? favorites.filter(f => f !== sportName)
+      : [...favorites, sportName];
+    setFavorites(newFavorites);
+    localStorage.setItem("favoriteSports", JSON.stringify(newFavorites));
+  };
+
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   const todayMenu = menuItems?.find(item => item.date === todayStr);
   const latestNews = announcements?.slice(0, 3);
