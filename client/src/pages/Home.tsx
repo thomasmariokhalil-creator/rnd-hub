@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const LATEST_VERSION = '1.5';
+  const LATEST_VERSION = '1.7';
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
   const { data: menuItems, isLoading: menuLoading } = useMenu();
   const { data: featured, isLoading: featuredLoading } = useFeatured();
