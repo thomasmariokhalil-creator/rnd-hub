@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const APP_VERSION = '1.2';
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
   const { data: menuItems, isLoading: menuLoading } = useMenu();
   const { data: featured, isLoading: featuredLoading } = useFeatured();
@@ -20,11 +21,22 @@ export default function Home() {
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [dressCode, setDressCode] = useState<"Full Uniform" | "Spirit Theme">("Full Uniform");
+  const [showUpdateBanner, setShowUpdateBanner] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("favoriteSports");
     if (saved) setFavorites(JSON.parse(saved));
+
+    const userVersion = localStorage.getItem("user_v");
+    if (userVersion !== APP_VERSION) {
+      setShowUpdateBanner(true);
+    }
   }, []);
+
+  const handleUpdateRefresh = () => {
+    localStorage.setItem("user_v", APP_VERSION);
+    window.location.reload();
+  };
 
   const todayStr = format(new Date(), 'yyyy-MM-dd');
   const todayMenu = menuItems?.find(item => item.date === todayStr);
@@ -45,6 +57,14 @@ export default function Home() {
 
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
+      {showUpdateBanner && (
+        <div 
+          className="bg-secondary text-primary py-2 px-4 text-center cursor-pointer font-bold text-xs hover:bg-secondary/90 transition-colors sticky top-0 z-[100] shadow-sm"
+          onClick={handleUpdateRefresh}
+        >
+          📢 New Update! Click to refresh for latest RND info.
+        </div>
+      )}
       <MobileHeader />
 
       <main className="md:pt-24 max-w-4xl mx-auto px-4 md:px-6 flex-1">
@@ -240,15 +260,6 @@ export default function Home() {
           </aside>
         </div>
       </main>
-
-      <footer className="w-full bg-muted/50 border-t border-border py-4 px-6 mb-20 md:mb-0">
-        <div className="max-w-4xl mx-auto flex items-center justify-center gap-3">
-          <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-muted-foreground flex items-center gap-2">
-            <Activity className="w-3 h-3 text-primary animate-pulse" />
-            📢 App Update Available: Please refresh or clear your cache to ensure you are seeing the latest schedules.
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
