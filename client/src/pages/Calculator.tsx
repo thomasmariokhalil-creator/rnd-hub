@@ -13,36 +13,51 @@ interface Assignment {
 }
 
 export default function CalculatorPage() {
-  const [assignments, setAssignments] = useState<Assignment[]>([
-    { id: "1", mark: "", weight: "" }
-  ]);
+  const [assignments, setAssignments] = useState<Assignment[]>(() => {
+    const saved = localStorage.getItem("calc_assignments");
+    return saved ? JSON.parse(saved) : [{ id: "1", mark: "", weight: "" }];
+  });
+
+  const saveAssignments = (newAssignments: Assignment[]) => {
+    setAssignments(newAssignments);
+    localStorage.setItem("calc_assignments", JSON.stringify(newAssignments));
+  };
 
   const addAssignment = () => {
-    setAssignments([...assignments, { id: Date.now().toString(), mark: "", weight: "" }]);
+    saveAssignments([...assignments, { id: Date.now().toString(), mark: "", weight: "" }]);
   };
 
   const removeAssignment = (id: string) => {
     if (assignments.length > 1) {
-      setAssignments(assignments.filter(a => a.id !== id));
+      saveAssignments(assignments.filter(a => a.id !== id));
     }
   };
 
   const updateAssignment = (id: string, field: keyof Assignment, value: string) => {
     const numValue = value === "" ? "" : parseFloat(value);
-    setAssignments(assignments.map(a => 
+    saveAssignments(assignments.map(a => 
       a.id === id ? { ...a, [field]: numValue } : a
     ));
   };
 
   const calculateAverage = () => {
+    const grouped = assignments.reduce((acc, a) => {
+      if (typeof a.mark === "number" && typeof a.weight === "number") {
+        const weightStr = a.weight.toString();
+        if (!acc[weightStr]) acc[weightStr] = [];
+        acc[weightStr].push(a.mark);
+      }
+      return acc;
+    }, {} as Record<string, number[]>);
+
     let totalWeightedScore = 0;
     let totalWeight = 0;
 
-    assignments.forEach(a => {
-      if (typeof a.mark === "number" && typeof a.weight === "number") {
-        totalWeightedScore += (a.mark * a.weight);
-        totalWeight += a.weight;
-      }
+    Object.entries(grouped).forEach(([weightStr, marks]) => {
+      const weight = parseFloat(weightStr);
+      const categoryAvg = marks.reduce((sum, m) => sum + m, 0) / marks.length;
+      totalWeightedScore += (categoryAvg * weight);
+      totalWeight += weight;
     });
 
     return totalWeight > 0 ? (totalWeightedScore / totalWeight).toFixed(2) : "0.00";

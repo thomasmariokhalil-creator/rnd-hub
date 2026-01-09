@@ -37,7 +37,7 @@ export function Navigation() {
           {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
             const isActive = location === href || (location === "" && href === "/");
             return (
-              <Link key={href} href={href}>
+              <Link key={href} href={href} className="flex-1">
                 <div className={cn(
                   "flex flex-col items-center justify-center w-full h-full px-1 py-1 space-y-1 transition-colors cursor-pointer",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground"
@@ -51,16 +51,16 @@ export function Navigation() {
           
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <div className="flex flex-col items-center justify-center w-full h-full px-1 py-1 space-y-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
+              <div className="flex-1 flex flex-col items-center justify-center h-full px-1 py-1 space-y-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer">
                 <MoreHorizontal className="w-5 h-5" />
                 <span className="text-[10px] font-medium leading-none">Other</span>
               </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 mb-2">
+            <DropdownMenuContent align="end" className="w-64 mb-2 p-2">
               {OTHER_ITEMS.map((item) => (
                 <DropdownMenuItem key={item.href} asChild>
-                  <Link href={item.href} className="flex items-center gap-2 cursor-pointer">
-                    <item.icon className="w-4 h-4" />
+                  <Link href={item.href} className="flex items-center gap-4 cursor-pointer py-4 px-4 text-lg font-bold">
+                    <item.icon className="w-6 h-6" />
                     <span>{item.label}</span>
                   </Link>
                 </DropdownMenuItem>
