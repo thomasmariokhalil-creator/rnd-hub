@@ -4,7 +4,7 @@ import { SectionHeader } from "@/components/SectionHeader";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Calculator, Plus, Trash2, GraduationCap } from "lucide-react";
+import { Calculator, Plus, Trash2, GraduationCap, Lightbulb } from "lucide-react";
 
 interface Assignment {
   id: string;
@@ -74,6 +74,11 @@ export default function CalculatorPage() {
           description="Calculate your running average for each course." 
         />
 
+        <div className="mb-6 flex items-center gap-2 text-xs font-medium text-muted-foreground bg-primary/5 p-3 rounded-xl border border-primary/10 animate-in fade-in slide-in-from-top duration-500">
+          <Lightbulb className="w-4 h-4 text-secondary shrink-0" />
+          <p>Tip: You can put one grade for a single task, or multiple grades separated by commas for a whole category!</p>
+        </div>
+
         <Card className="mb-8">
           <CardHeader className="bg-primary/5 border-b">
             <div className="flex items-center justify-between">
@@ -98,14 +103,14 @@ export default function CalculatorPage() {
               <div key={a.id} className="flex items-center gap-3 animate-in fade-in slide-in-from-left duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                 <Input
                   type="text"
-                  placeholder="Assignment name"
+                  placeholder="Task/Category (Optional)"
                   value={a.name}
                   onChange={(e) => updateAssignment(a.id, "name", e.target.value)}
                   className="rounded-xl font-bold flex-1"
                 />
                 <Input
                   type="text"
-                  placeholder="e.g. 85, 90, 75"
+                  placeholder="Enter grades (e.g., 80, 95, 70)"
                   value={a.marks}
                   onChange={(e) => updateAssignment(a.id, "marks", e.target.value)}
                   className="rounded-xl font-bold flex-[2]"
