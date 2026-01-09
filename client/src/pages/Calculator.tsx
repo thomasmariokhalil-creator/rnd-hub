@@ -8,23 +8,23 @@ import { Calculator, Plus, Trash2, GraduationCap } from "lucide-react";
 
 interface Assignment {
   id: string;
-  mark: number | "";
+  marks: string; // Comma-separated marks
   weight: number | "";
 }
 
 export default function CalculatorPage() {
   const [assignments, setAssignments] = useState<Assignment[]>(() => {
-    const saved = localStorage.getItem("calc_assignments");
-    return saved ? JSON.parse(saved) : [{ id: "1", mark: "", weight: "" }];
+    const saved = localStorage.getItem("calc_assignments_v2");
+    return saved ? JSON.parse(saved) : [{ id: "1", marks: "", weight: "" }];
   });
 
   const saveAssignments = (newAssignments: Assignment[]) => {
     setAssignments(newAssignments);
-    localStorage.setItem("calc_assignments", JSON.stringify(newAssignments));
+    localStorage.setItem("calc_assignments_v2", JSON.stringify(newAssignments));
   };
 
   const addAssignment = () => {
-    saveAssignments([...assignments, { id: Date.now().toString(), mark: "", weight: "" }]);
+    saveAssignments([...assignments, { id: Date.now().toString(), marks: "", weight: "" }]);
   };
 
   const removeAssignment = (id: string) => {
@@ -34,18 +34,30 @@ export default function CalculatorPage() {
   };
 
   const updateAssignment = (id: string, field: keyof Assignment, value: string) => {
-    const numValue = value === "" ? "" : parseFloat(value);
-    saveAssignments(assignments.map(a => 
-      a.id === id ? { ...a, [field]: numValue } : a
-    ));
+    const updated = assignments.map(a => {
+      if (a.id === id) {
+        if (field === "weight") {
+          return { ...a, [field]: value === "" ? "" : parseFloat(value) };
+        }
+        return { ...a, [field]: value };
+      }
+      return a;
+    });
+    saveAssignments(updated);
   };
 
   const calculateAverage = () => {
-    const grouped = assignments.reduce((acc, a) => {
-      if (typeof a.mark === "number" && typeof a.weight === "number") {
-        const weightStr = a.weight.toString();
+    const validAssignments = assignments.filter(a => a.marks.trim() !== "" && typeof a.weight === "number");
+    
+    const grouped = validAssignments.reduce((acc, a) => {
+      const weightStr = a.weight.toString();
+      const marksList = a.marks.split(",").map(m => parseFloat(m.trim())).filter(m => !isNaN(m));
+      
+      if (marksList.length > 0) {
         if (!acc[weightStr]) acc[weightStr] = [];
-        acc[weightStr].push(a.mark);
+        // Average the marks in this category first
+        const categoryAvg = marksList.reduce((sum, m) => sum + m, 0) / marksList.length;
+        acc[weightStr].push(categoryAvg);
       }
       return acc;
     }, {} as Record<string, number[]>);
@@ -53,10 +65,12 @@ export default function CalculatorPage() {
     let totalWeightedScore = 0;
     let totalWeight = 0;
 
-    Object.entries(grouped).forEach(([weightStr, marks]) => {
+    Object.entries(grouped).forEach(([weightStr, categoryAverages]) => {
       const weight = parseFloat(weightStr);
-      const categoryAvg = marks.reduce((sum, m) => sum + m, 0) / marks.length;
-      totalWeightedScore += (categoryAvg * weight);
+      // If multiple assignments have same weight, we average their averages (or just average all marks with that weight)
+      // The instruction says "calculate the average of those grades first, then apply the weight percentage"
+      const weightAvg = categoryAverages.reduce((sum, avg) => sum + avg, 0) / categoryAverages.length;
+      totalWeightedScore += (weightAvg * weight);
       totalWeight += weight;
     });
 
@@ -86,26 +100,26 @@ export default function CalculatorPage() {
             </div>
           </CardHeader>
           <CardContent className="pt-6 space-y-4">
-            <div className="grid grid-cols-2 gap-4 px-2">
-              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Mark (%)</span>
+            <div className="grid grid-cols-[1fr_100px_40px] gap-4 px-2">
+              <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Marks (e.g. 80, 90)</span>
               <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Weight (%)</span>
             </div>
 
             {assignments.map((a, index) => (
               <div key={a.id} className="flex items-center gap-3 animate-in fade-in slide-in-from-left duration-300" style={{ animationDelay: `${index * 50}ms` }}>
                 <Input
-                  type="number"
-                  placeholder="e.g. 85"
-                  value={a.mark}
-                  onChange={(e) => updateAssignment(a.id, "mark", e.target.value)}
-                  className="rounded-xl font-bold"
+                  type="text"
+                  placeholder="e.g. 85, 90, 75"
+                  value={a.marks}
+                  onChange={(e) => updateAssignment(a.id, "marks", e.target.value)}
+                  className="rounded-xl font-bold flex-1"
                 />
                 <Input
                   type="number"
-                  placeholder="e.g. 20"
+                  placeholder="20"
                   value={a.weight}
                   onChange={(e) => updateAssignment(a.id, "weight", e.target.value)}
-                  className="rounded-xl font-bold"
+                  className="rounded-xl font-bold w-[100px]"
                 />
                 <Button 
                   variant="ghost" 

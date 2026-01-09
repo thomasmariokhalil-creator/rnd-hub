@@ -12,7 +12,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 export default function Home() {
-  const APP_VERSION = '1.2';
+  const LATEST_VERSION = '1.5';
   const { data: announcements, isLoading: newsLoading } = useAnnouncements();
   const { data: menuItems, isLoading: menuLoading } = useMenu();
   const { data: featured, isLoading: featuredLoading } = useFeatured();
@@ -21,20 +21,20 @@ export default function Home() {
 
   const [favorites, setFavorites] = useState<string[]>([]);
   const [dressCode, setDressCode] = useState<"Full Uniform" | "Spirit Theme">("Full Uniform");
-  const [showUpdateBanner, setShowUpdateBanner] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("favoriteSports");
     if (saved) setFavorites(JSON.parse(saved));
 
-    const userVersion = localStorage.getItem("user_v");
-    if (userVersion !== APP_VERSION) {
-      setShowUpdateBanner(true);
+    const userVersion = localStorage.getItem("userAppVersion");
+    if (userVersion !== LATEST_VERSION) {
+      setShowUpdateModal(true);
     }
   }, []);
 
-  const handleUpdateRefresh = () => {
-    localStorage.setItem("user_v", APP_VERSION);
+  const handleUpdate = () => {
+    localStorage.setItem("userAppVersion", LATEST_VERSION);
     window.location.reload();
   };
 
@@ -65,12 +65,23 @@ export default function Home() {
 
   return (
     <div className="pb-24 md:pb-10 bg-background min-h-screen flex flex-col">
-      {showUpdateBanner && (
-        <div 
-          className="bg-secondary text-primary py-2 px-4 text-center cursor-pointer font-bold text-xs hover:bg-secondary/90 transition-colors sticky top-0 z-[100] shadow-sm"
-          onClick={handleUpdateRefresh}
-        >
-          📢 New Update! Click to refresh for latest RND info.
+      {showUpdateModal && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+          <div className="bg-card border border-border rounded-[2.5rem] p-8 max-w-sm w-full shadow-2xl animate-in zoom-in-95 duration-300 text-center">
+            <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <Activity className="w-8 h-8 text-primary animate-pulse" />
+            </div>
+            <h2 className="font-display font-bold text-2xl text-primary mb-4">Updates Available!</h2>
+            <p className="text-muted-foreground text-sm mb-8 leading-relaxed">
+              This app needs to update to show the latest school info, schedules, and calculator fixes.
+            </p>
+            <Button 
+              onClick={handleUpdate}
+              className="w-full bg-[#800000] hover:bg-[#600000] text-white py-6 rounded-xl font-bold text-lg shadow-lg active-elevate-2 transition-all"
+            >
+              Update Now
+            </Button>
+          </div>
         </div>
       )}
       <MobileHeader />
@@ -111,7 +122,7 @@ export default function Home() {
                 <Clock className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h2 className="font-display font-bold text-xl text-primary">Live Today</h2>
+                <h2 className="font-display font-bold text-xl text-primary">Happening Today</h2>
                 <p className="text-xs text-muted-foreground font-medium uppercase tracking-widest">
                   {format(new Date(), 'EEEE, MMMM do')}
                 </p>
